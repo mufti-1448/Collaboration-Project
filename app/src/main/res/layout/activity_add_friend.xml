@@ -1,0 +1,135 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddFriendActivity">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="@dimen/_4sdp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:src="@drawable/ic_back"
+            android:contentDescription="@string/des_btn_back"
+            android:layout_gravity="start" />
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_friend"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20ssp"
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:gravity="center" />
+
+        <ImageButton
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:src="@drawable/ic_save"
+            android:contentDescription="@string/des_btn_save"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/_20sdp"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Image with camera icon -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:src="@drawable/ic_profile_placeholder"
+            android:scaleType="centerCrop"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/des_photo"/>
+
+        <ImageButton
+            android:id="@+id/cameraButton"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
+            android:layout_alignEnd="@id/profileImage"
+            android:layout_alignBottom="@id/profileImage"
+            android:layout_marginEnd="-63dp"
+            android:layout_marginBottom="-89dp"
+            android:background="@drawable/bg_button_rounded"
+            android:contentDescription="@string/des_btn_camera"
+            android:src="@drawable/ic_camera" />
+    </RelativeLayout>
+
+    <!-- Form Fields -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/_16sdp">
+
+        <!-- Name field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_16sdp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name_hint"
+                android:text="@string/tv_name"
+                android:drawableStart="@drawable/ic_person"
+                android:drawablePadding="@dimen/_8sdp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- School field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_16sdp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSchool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/school_hint"
+                android:text="@string/tv_school"
+                android:drawableStart="@drawable/ic_school"
+                android:drawablePadding="@dimen/_8sdp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Bio field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etBio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/bio_hint"
+                android:text="@string/tv_bio"
+                android:drawableStart="@drawable/ic_info"
+                android:drawablePadding="@dimen/_8sdp" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+</LinearLayout>

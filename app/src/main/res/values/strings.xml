@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">My Friend</string>
+    <string name="name_hint">Name</string>
+    <string name="tv_name">M. Khafidhin Mufti Ali</string>
+    <string name="school_hint">School</string>
+    <string name="tv_school">SMK Syafii Akrom Kota Pekalongan</string>
+    <string name="bio_hint">Bio</string>
+    <string name="tv_bio">Inna Aamalu binniyat</string>
+    <string name="des_btn_camera">Tombol Kamera</string>
+    <string name="des_btn_save">Tombol Kamera</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="des_btn_back">Tombol Kembali</string>
+    <string name="des_photo">Foto Teman</string>
+    <string name="edit_friend">Edit Friend</string>
+</resources>
