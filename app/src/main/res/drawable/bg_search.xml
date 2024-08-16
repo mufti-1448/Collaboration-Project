@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bentuk (shape) untuk latar belakang kolom pencarian -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/white_pink"/> <!-- Warna solid untuk latar belakang -->
+    <corners android:radius="@dimen/_10sdp"/> <!-- Sudut melengkung dengan radius 8dp -->
+    <padding android:left="12dp" android:right="12dp"/> <!-- Padding di sisi kiri dan kanan -->
+</shape>

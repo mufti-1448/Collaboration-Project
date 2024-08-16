@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout LinearLayout digunakan untuk mengatur tata letak komponen secara vertikal -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <!-- EditText untuk kolom pencarian -->
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search"
+        android:drawableEnd="@drawable/ic_search"
+        android:padding="12dp"
+        android:background="@drawable/bg_search"
+        android:textColor="@color/black"/>
+
+    <!-- RecyclerView untuk daftar teman -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="12dp"
+        android:padding="4dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:background="@color/white"/>
+
+    <!-- Tombol untuk menambah teman baru -->
+    <ImageButton
+        android:id="@+id/btnAddFriend"
+        android:layout_width="@dimen/_48sdp"
+        android:layout_height="@dimen/_48sdp"
+        android:layout_marginStart="@dimen/_230sdp"
+        android:background="@drawable/ic_button_add"
+        android:contentDescription="@string/des_btn_camera"
+        android:src="@drawable/ic_add" />
+
+</LinearLayout>

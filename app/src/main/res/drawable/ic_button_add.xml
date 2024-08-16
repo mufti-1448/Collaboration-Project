@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/white_pink"/>
+    <corners android:radius="@dimen/_10sdp"/>
+    <elevation android:drawable="@drawable/ic_camera" />
+</shape>

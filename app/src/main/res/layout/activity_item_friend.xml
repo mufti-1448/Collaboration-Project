@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/_120sdp"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="4dp"
+    card_view:cardBackgroundColor="#f0f0f0"
+    android:layout_weight="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- Gambar profil atau ikon teman -->
+        <ImageView
+            android:id="@+id/img_friend"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_130sdp"
+            android:src="@drawable/ic_profile_placeholder"
+            android:scaleType="centerCrop"
+            android:background="#cccccc"
+            android:contentDescription="Profile Image"/>
+
+        <!-- Layout untuk menampilkan nama dan sekolah teman -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:background="@color/white_pink"
+            android:gravity="center_horizontal">
+
+            <!-- TextView untuk menampilkan nama teman -->
+            <TextView
+                android:id="@+id/tv_friend_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <!-- TextView untuk menampilkan sekolah teman -->
+            <TextView
+                android:id="@+id/tv_friend_school"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="School"
+                android:textColor="#888888"
+                android:textSize="14sp"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
