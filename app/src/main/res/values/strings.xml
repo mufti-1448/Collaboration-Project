@@ -12,4 +12,13 @@
     <string name="des_btn_back">Tombol Kembali</string>
     <string name="des_photo">Foto Teman</string>
     <string name="edit_friend">Edit Friend</string>
+    <string name="home_image">Home Image</string>
+    <string name="let_s_be_friend">Let\'s be friend</string>
+    <string name="description">Industrial class not only develop hard skills and soft skills, but we also help develop life sklills acording to your competence.</string>
+    <string name="let_s_start">Let\'s Start</string>
+    <string name="detail_friend">Detail Friend</string>
+    <string name="image_friend">Image Friend</string>
+    <string name="name">Name</string>
+    <string name="button_edit">Button Edit</string>
+    <string name="button_delete">Button Delete</string>
 </resources>
