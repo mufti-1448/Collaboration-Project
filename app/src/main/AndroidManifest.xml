@@ -13,7 +13,7 @@
         android:theme="@style/Theme.MyFriend"
         tools:targetApi="31">
         <activity
-            android:name=".MenuHomeActivity"
+            android:name=".EditFriendActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,16 +22,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EditFriendActivity"
-            android:exported="true">
+            android:name=".AddFriendActivity"
+            android:exported="true" >
 
         </activity>
         <activity
-            android:name=".AddFriendActivity"
-            android:exported="true" />
-        <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="true">
+
+        </activity>
     </application>
 
 </manifest>

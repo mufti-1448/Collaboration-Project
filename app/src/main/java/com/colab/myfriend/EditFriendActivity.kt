@@ -1,6 +1,7 @@
 package com.colab.myfriend
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton

@@ -6,14 +6,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.colab.myfriend.databinding.ActivityMainBinding
+import com.colab.myfriend.databinding.ActivityDetailFriendBinding
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class DetailFriendActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityDetailFriendBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityDetailFriendBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         enableEdgeToEdge()
@@ -22,9 +22,9 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        binding.btnStart.setOnClickListener {
+        binding.editButton.setOnClickListener {
             //ganti destinasi dengan halaman home
-            val destination = Intent(this, DetailFriendActivity::class.java)
+            val destination = Intent(this, EditFriendActivity::class.java)
             startActivity(destination)
         }
     }
