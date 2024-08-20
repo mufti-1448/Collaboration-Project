@@ -30,10 +30,10 @@ class MenuHomeActivity : AppCompatActivity() {
 
     private fun getFriendsList(): List<Friend> {
         return listOf(
-            Friend("Name1", "School1"),
-            Friend("Name2", "School2"),
-            Friend("Name3", "School3"),
-            Friend("Name4", "School4")
+            Friend("Name1", "School1", "Bio1"),
+            Friend("Name2", "School2", "Bio2"),
+            Friend("Name3", "School3", "Bio3"),
+            Friend("Name4", "School4", "Bio4")
         )
     }
 }
