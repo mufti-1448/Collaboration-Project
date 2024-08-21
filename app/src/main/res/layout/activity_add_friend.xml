@@ -17,7 +17,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:layout_marginStart="@dimen/_30sdp"
             android:gravity="center" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,34 +49,28 @@
     </androidx.appcompat.widget.Toolbar>
 
     <!-- Image with camera icon -->
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:background="#BDBDBD">
+        android:layout_height="@dimen/_360sdp"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/profileImage"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_150sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_360sdp"
             android:src="@drawable/ic_profile_placeholder"
-            android:scaleType="centerCrop"
-            android:layout_centerInParent="true"
-            android:contentDescription="@string/des_photo"/>
+            android:contentDescription="@string/image_friend"/>
 
         <ImageButton
             android:id="@+id/cameraButton"
             android:layout_width="@dimen/_48sdp"
             android:layout_height="@dimen/_48sdp"
-            android:layout_alignEnd="@id/profileImage"
-            android:layout_alignBottom="@id/profileImage"
-            android:layout_marginEnd="-63dp"
-            android:layout_marginBottom="-89dp"
+            android:layout_marginTop="@dimen/_290sdp"
+            android:layout_marginStart="@dimen/_250sdp"
             android:background="@drawable/bg_button_rounded"
             android:contentDescription="@string/des_btn_camera"
             android:src="@drawable/ic_camera" />
-    </RelativeLayout>
+    </FrameLayout>
 
     <!-- Form Fields -->
     <LinearLayout
@@ -86,6 +80,8 @@
         android:padding="@dimen/_16sdp">
 
         <!-- Name field -->
+
+        <!-- School field -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -95,13 +91,12 @@
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/name_hint"
-                android:text="@string/tv_name"
                 android:drawableStart="@drawable/ic_person"
-                android:drawablePadding="@dimen/_8sdp" />
+                android:drawablePadding="@dimen/_8sdp"
+                android:hint="@string/name_hint"
+                android:text="@string/tv_name" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- School field -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
