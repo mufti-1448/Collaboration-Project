@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FriendDao {
+
+
     @Insert
     suspend fun insert(friend: Friend)
 

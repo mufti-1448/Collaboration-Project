@@ -11,7 +11,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
-
 class EditFriendActivity : AppCompatActivity() {
     private lateinit var imgProfile: ImageView
     private lateinit var etName: EditText
@@ -26,14 +25,14 @@ class EditFriendActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_edit_friend)
 
-        imgProfile = findViewById(R.id.profileImage)
-        etName = findViewById(R.id.etName)
-        etSchool = findViewById(R.id.etSchool)
-        etBio = findViewById(R.id.etBio)
-        btnPickPhoto = findViewById(R.id.cameraButton)
-        btnUpdate = findViewById(R.id.saveButton)
+        imgProfile = findViewById(R.id.profileImage_inedit)
+        etName = findViewById(R.id.etName_inedit)
+        etSchool = findViewById(R.id.etSchool_inedit)
+        etBio = findViewById(R.id.etBio_inedit)
+        btnPickPhoto = findViewById(R.id.cameraButton_inedit)
+        btnUpdate = findViewById(R.id.saveButton_inedit)
 
-        // Load data dari database (contoh data sementara)
+        // Load data dari database atau Intent (contoh data sementara)
         etName.setText("Hikari Pangestika")
         etSchool.setText("SMK Negeri 9 Semarang")
         etBio.setText("Gadis koleris yang suka berimajinasi, terangi harimu dengan senyuman karamelnya.")
@@ -42,6 +41,7 @@ class EditFriendActivity : AppCompatActivity() {
         btnPickPhoto.setOnClickListener {
             // Logika untuk mengambil gambar dari kamera atau galeri
             Toast.makeText(this, "Pick Photo clicked", Toast.LENGTH_SHORT).show()
+            // Implementasi pemilihan gambar dari kamera atau galeri bisa ditambahkan di sini
         }
 
         // Tombol untuk mengupdate data
@@ -56,8 +56,14 @@ class EditFriendActivity : AppCompatActivity() {
         builder.setMessage("Are you sure you want to update this friend's details?")
         builder.setPositiveButton("Update") { dialog, which ->
             // Logika untuk mengupdate data ke database
+            // Contoh: panggil ViewModel untuk mengupdate data
+            // friendViewModel.updateFriend(Friend(etName.text.toString(), etSchool.text.toString(), etBio.text.toString()))
             Toast.makeText(this, "Friend details updated", Toast.LENGTH_SHORT).show()
             finish() // Menutup Activity setelah mengupdate
+
+            // Jika ingin kembali ke MenuHomeActivity
+             val intent = Intent(this, MenuHomeActivity::class.java)
+             startActivity(intent)
         }
         builder.setNegativeButton("Cancel") { dialog, which ->
             dialog.dismiss() // Menutup dialog jika dibatalkan

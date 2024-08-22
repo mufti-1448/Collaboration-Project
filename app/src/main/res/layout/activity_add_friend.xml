@@ -18,7 +18,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
 
         <ImageView
-            android:id="@+id/backButton"
+            android:id="@+id/backButton_inaddd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -27,7 +27,7 @@
             android:layout_gravity="start" />
 
         <TextView
-            android:id="@+id/toolbarTitle"
+            android:id="@+id/toolbarTitle_inaddd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_friend"
@@ -38,7 +38,7 @@
             android:gravity="center" />
 
         <ImageView
-            android:id="@+id/saveButton"
+            android:id="@+id/saveButton_inaddd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -55,14 +55,14 @@
         android:gravity="center">
 
         <ImageView
-            android:id="@+id/profileImage"
+            android:id="@+id/profileImage_inaddd"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_360sdp"
             android:src="@drawable/ic_profile_placeholder"
             android:contentDescription="@string/image_friend"/>
 
         <ImageButton
-            android:id="@+id/cameraButton"
+            android:id="@+id/cameraButton_inaddd"
             android:layout_width="@dimen/_48sdp"
             android:layout_height="@dimen/_48sdp"
             android:layout_marginTop="@dimen/_290sdp"
@@ -88,7 +88,7 @@
             android:layout_marginBottom="@dimen/_16sdp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etName"
+                android:id="@+id/etName_inaddd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_person"
@@ -103,7 +103,7 @@
             android:layout_marginBottom="@dimen/_16sdp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etSchool"
+                android:id="@+id/etSchool_inaddd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/school_hint"
@@ -119,7 +119,7 @@
             android:layout_marginBottom="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etBio"
+                android:id="@+id/etBio_inaddd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/bio_hint"

@@ -18,7 +18,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
 
         <ImageButton
-            android:id="@+id/backButton"
+            android:id="@+id/backButton_inedit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -27,7 +27,7 @@
             android:layout_gravity="start" />
 
         <TextView
-            android:id="@+id/toolbarTitle"
+            android:id="@+id/toolbarTitle_inedit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/edit_friend"
@@ -38,7 +38,7 @@
             android:gravity="center" />
 
         <ImageButton
-            android:id="@+id/saveButton"
+            android:id="@+id/saveButton_inedit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -57,7 +57,7 @@
         android:background="#BDBDBD">
 
         <ImageView
-            android:id="@+id/profileImage"
+            android:id="@+id/profileImage_inedit"
             android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_150sdp"
             android:src="@drawable/ic_profile_placeholder"
@@ -66,11 +66,11 @@
             android:contentDescription="@string/des_photo"/>
 
         <ImageButton
-            android:id="@+id/cameraButton"
+            android:id="@+id/cameraButton_inedit"
             android:layout_width="@dimen/_48sdp"
             android:layout_height="@dimen/_48sdp"
-            android:layout_alignEnd="@id/profileImage"
-            android:layout_alignBottom="@id/profileImage"
+            android:layout_alignEnd="@id/profileImage_inedit"
+            android:layout_alignBottom="@id/profileImage_inedit"
             android:layout_marginEnd="-69dp"
             android:layout_marginBottom="-93dp"
             android:background="@drawable/bg_button_rounded"
@@ -92,7 +92,7 @@
             android:layout_marginBottom="@dimen/_16sdp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etName"
+                android:id="@+id/etName_inedit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/name_hint"
@@ -108,7 +108,7 @@
             android:layout_marginBottom="@dimen/_16sdp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etSchool"
+                android:id="@+id/etSchool_inedit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/school_hint"
@@ -124,7 +124,7 @@
             android:layout_marginBottom="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etBio"
+                android:id="@+id/etBio_inedit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/bio_hint"

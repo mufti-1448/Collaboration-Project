@@ -1,16 +1,24 @@
 package com.colab.myfriend
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.colab.friendlist.Friend
 import com.colab.friendlist.FriendAdapter
 import com.colab.myfriend.databinding.ActivityMenuHomeBinding
+import kotlinx.coroutines.launch
 
 class MenuHomeActivity : AppCompatActivity() {
 
+    private var friendList: ArrayList<Friend> = ArrayList()
     private lateinit var binding: ActivityMenuHomeBinding
-    private lateinit var adapter: FriendAdapter
+    private lateinit var Adapter: FriendAdapter
+    private lateinit var viewModel: FriendViewModel
+    private lateinit var adapter: AdapterRVFriend
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,13 +26,25 @@ class MenuHomeActivity : AppCompatActivity() {
         setContentView(binding.root) // Mengatur tampilan menggunakan ViewBinding
 
         // Inisialisasi RecyclerView dengan GridLayoutManager
-        adapter = FriendAdapter(getFriendsList())
+        Adapter = FriendAdapter(getFriendsList())
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2)  // Mengatur grid dengan 2 kolom
         binding.recyclerView.adapter = adapter
 
         // Klik listener untuk tombol tambah teman
         binding.btnAddFriend.setOnClickListener {
             // Implementasi fungsionalitas untuk menambah teman baru
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.getFriend().collect{ friends ->
+                        Log.d("DATABASE", "Friends: $friends")
+                        friendList.clear()
+                        friendList.addAll(friends)
+                        adapter.setData(friendList)
+                    }
+                }
+            }
         }
     }
 

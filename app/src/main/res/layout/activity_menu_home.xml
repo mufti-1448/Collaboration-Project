@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Layout LinearLayout digunakan untuk mengatur tata letak komponen secara vertikal -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white"
     android:padding="@dimen/_14sdp">
@@ -20,16 +21,23 @@
         android:textColor="@color/black"/>
 
     <!-- RecyclerView untuk daftar teman -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:padding="@dimen/_2sdp"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
-        android:background="@color/white"/>
+        android:layout_height="686dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="0dp">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="true"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/activity_item_friend" />
+    </ScrollView>
 
     <!-- Tombol untuk menambah teman baru -->
     <ImageButton
@@ -37,6 +45,7 @@
         android:layout_width="@dimen/_48sdp"
         android:layout_height="@dimen/_48sdp"
         android:layout_marginStart="@dimen/_230sdp"
+        android:layout_marginBottom="@dimen/_100sdp"
         android:background="@drawable/ic_button_add"
         android:contentDescription="@string/des_btn_camera"
         android:src="@drawable/ic_add" />
