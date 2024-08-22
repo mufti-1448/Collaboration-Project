@@ -1,5 +1,6 @@
 package com.colab.myfriend
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,8 @@ class MenuHomeActivity : AppCompatActivity() {
     private lateinit var Adapter: FriendAdapter
     private lateinit var viewModel: FriendViewModel
     private lateinit var adapter: AdapterRVFriend
+
+    private val data = ArrayList<Friend>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +49,28 @@ class MenuHomeActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+    private fun initView() {
+        val friends = arrayOf(
+            Friend("Mufti Ali", "SMK Syafii Akrom", "memancing", ),
+            Friend("Fakih", "SMK Nurul Umah", "menyanyi" ),
+            Friend("Ulil", "SMAN 1 Paninggaran", "Berenang" )
+        )
+
+        data.addAll(friends)
+
+        val adapter = RvFriendAdapter(this) { position, data ->
+            val destination =
+                Intent(this@MenuHomeActivity, DetailFriendActivity::class.java).apply {
+                    putExtra("nama", data.name)
+                    putExtra("sekolah", data.school)
+                }.also {
+                    startActivity(it)
+                }
+        }
+        adapter.setData(data)
+
+        binding.recyclerView.adapter = adapter
     }
 
     private fun getFriendsList(): List<Friend> {
