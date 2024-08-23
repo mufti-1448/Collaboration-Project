@@ -65,7 +65,7 @@
             android:layout_centerInParent="true"
             android:contentDescription="@string/des_photo"/>
 
-        <ImageButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/cameraButton_inedit"
             android:layout_width="@dimen/_48sdp"
             android:layout_height="@dimen/_48sdp"
@@ -75,7 +75,8 @@
             android:layout_marginBottom="-93dp"
             android:background="@drawable/bg_button_rounded"
             android:contentDescription="@string/des_btn_camera"
-            android:src="@drawable/ic_camera" />
+            android:src="@drawable/ic_camera"
+            tools:ignore="VisualLintBounds" />
     </RelativeLayout>
 
     <!-- Form Fields -->
