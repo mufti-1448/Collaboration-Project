@@ -22,9 +22,9 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        //beralih ke menu home
         binding.btnStart.setOnClickListener {
-            //ganti destinasi dengan halaman home
-            val destination = Intent(this, DetailFriendActivity::class.java)
+            val destination = Intent(this, MenuHomeActivity::class.java)
             startActivity(destination)
         }
     }
