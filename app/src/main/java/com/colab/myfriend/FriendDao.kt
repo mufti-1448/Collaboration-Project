@@ -6,6 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FriendDao {
+
+    // tambahan
+    @Query("SELECT * from friend WHERE id = :id")
+    fun getItemById(id: Int): Flow<Friend?>
+
     @Insert
     suspend fun insert(friend: Friend)
 
