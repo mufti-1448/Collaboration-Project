@@ -74,7 +74,7 @@ class AddFriendActivity : AppCompatActivity() {
 
                 // Mengkonversi file gambar menjadi Bitmap dan menampilkannya
                 val takenImage = BitmapFactory.decodeFile(photoFile.absolutePath)
-                binding.cameraButton.setImageBitmap(takenImage)
+                binding.profileImage.setImageBitmap(takenImage)
 
                 // Mengkonversi Bitmap menjadi string base64 dan menyimpannya
                 photoStr = bitmapToString(takenImage)

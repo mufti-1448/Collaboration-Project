@@ -58,7 +58,7 @@
         <ImageView
             android:id="@+id/profileImage"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_360sdp"
+            android:layout_height="match_parent"
             android:src="@drawable/ic_profile_placeholder"
             android:contentDescription="@string/image_friend"/>
 

@@ -59,20 +59,17 @@
 
         <ImageView
             android:id="@+id/profileImage"
-            android:layout_width="@dimen/_250sdp"
-            android:layout_height="@dimen/_250sdp"
-            android:contentDescription="@string/des_photo"
-            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/image_friend"
             android:src="@drawable/ic_profile_placeholder" />
 
         <ImageButton
             android:id="@+id/cameraButton"
             android:layout_width="@dimen/_48sdp"
             android:layout_height="@dimen/_48sdp"
-            android:layout_alignEnd="@id/profileImage"
-            android:layout_alignBottom="@id/profileImage"
-            android:layout_marginEnd="-20dp"
-            android:layout_marginBottom="-5dp"
+            android:layout_marginStart="@dimen/_250sdp"
+            android:layout_marginTop="@dimen/_290sdp"
             android:background="@drawable/bg_button_rounded"
             android:contentDescription="@string/des_btn_camera"
             android:src="@drawable/ic_camera" />
