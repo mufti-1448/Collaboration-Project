@@ -8,6 +8,7 @@
     tools:context=".DetailFriendActivity"
     android:orientation="vertical">
 
+    <!--Toolbar-->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -16,8 +17,8 @@
 
         <ImageView
             android:id="@+id/backButton"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="@dimen/_23sdp"
+            android:layout_height="@dimen/_23sdp"
             android:layout_gravity="start"
             android:contentDescription="@string/des_btn_back"
             android:src="@drawable/ic_back" />
@@ -35,8 +36,8 @@
 
         <ImageView
             android:id="@+id/deleteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_23sdp"
+            android:layout_height="@dimen/_23sdp"
             android:layout_gravity="end"
             android:layout_marginEnd="@dimen/_20sdp"
             android:contentDescription="@string/button_edit"
@@ -44,14 +45,15 @@
 
         <ImageView
             android:id="@+id/editButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_23sdp"
+            android:layout_height="@dimen/_23sdp"
             android:layout_gravity="end"
             android:layout_marginEnd="@dimen/_20sdp"
             android:contentDescription="@string/button_delete"
             android:src="@drawable/ic_edit" />
     </androidx.appcompat.widget.Toolbar>
 
+    <!--Image view untuk menampilkan gambar dari recycleview-->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/_360sdp"
@@ -66,6 +68,7 @@
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_20sdp"/>
 
+    <!--Textview untuk menampilkan nama-->
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
@@ -85,6 +88,7 @@
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_20sdp"/>
 
+    <!--Textview untuk menampilkan sekolah-->
     <TextView
         android:id="@+id/tv_school"
         android:layout_width="wrap_content"
@@ -104,6 +108,7 @@
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_20sdp"/>
 
+    <!--Textview untuk menampilkan sekolah-->
     <TextView
         android:id="@+id/tv_bio"
         android:layout_width="wrap_content"

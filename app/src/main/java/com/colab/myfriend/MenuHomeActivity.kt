@@ -1,10 +1,10 @@
 package com.colab.myfriend
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.colab.friendlist.Friend
-import com.colab.friendlist.FriendAdapter
 import com.colab.myfriend.databinding.ActivityMenuHomeBinding
 
 class MenuHomeActivity : AppCompatActivity() {
@@ -15,11 +15,18 @@ class MenuHomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMenuHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root) // Mengatur tampilan menggunakan ViewBinding
+        setContentView(binding.root)
 
         // Inisialisasi RecyclerView dengan GridLayoutManager
-        adapter = FriendAdapter(getFriendsList())
-        binding.recyclerView.layoutManager = GridLayoutManager(this, 2)  // Mengatur grid dengan 2 kolom
+        adapter = FriendAdapter(getFriendsList()) { friend ->
+            // Kirim data ke DetailFriendActivity
+            val intent = Intent(this, DetailFriendActivity::class.java).apply {
+                putExtra("EXTRA_NAME", friend.name)
+                putExtra("EXTRA_SCHOOL", friend.school)
+            }
+            startActivity(intent)
+        }
+        binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
         binding.recyclerView.adapter = adapter
 
         // Klik listener untuk tombol tambah teman
