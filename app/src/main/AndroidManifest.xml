@@ -15,11 +15,7 @@
         <activity
             android:name=".EditFriendActivity"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".AddFriendActivity"
@@ -27,8 +23,17 @@
 
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".MenuHomeActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".DetailFriendActivity"
+            android:exported="true">
+
 
         </activity>
     </application>
