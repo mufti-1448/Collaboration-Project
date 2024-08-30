@@ -172,7 +172,7 @@ class AddFriendActivity : AppCompatActivity() {
     private fun showSaveDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Add Friend")
-        builder.setMessage("Are you sure you want to save this friend's details?")
+        builder.setMessage("Are you sure you want to add this friend?")
         builder.setPositiveButton("Save") { dialog, which ->
             addData()
             Toast.makeText(this, "Friend saved", Toast.LENGTH_SHORT).show()
