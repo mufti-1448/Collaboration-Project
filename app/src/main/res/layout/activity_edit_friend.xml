@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/name_hint"
-                android:text="@string/tv_name"
+                android:text=""
                 android:drawableStart="@drawable/ic_person"
                 android:drawablePadding="@dimen/_8sdp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/school_hint"
-                android:text="@string/tv_school"
+                android:text=""
                 android:drawableStart="@drawable/ic_school"
                 android:drawablePadding="@dimen/_8sdp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -125,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/bio_hint"
-                android:text="@string/tv_bio"
+                android:text=""
                 android:drawableStart="@drawable/ic_info"
                 android:drawablePadding="@dimen/_8sdp" />
         </com.google.android.material.textfield.TextInputLayout>

@@ -33,7 +33,6 @@
             android:text="@string/detail_friend"
             android:textColor="@color/black"
             android:textSize="@dimen/_20ssp" />
-
         <ImageView
             android:id="@+id/deleteButton"
             android:layout_width="@dimen/_23sdp"
@@ -73,7 +72,7 @@
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tv_name"
+        android:text=""
         android:textSize="@dimen/_14ssp"
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_10sdp"
@@ -96,7 +95,7 @@
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:drawablePadding="@dimen/_8sdp"
-        android:text="@string/tv_school"
+        android:text=""
         android:textSize="@dimen/_14ssp"
         app:drawableStartCompat="@drawable/ic_school" />
 
@@ -113,7 +112,7 @@
         android:id="@+id/tv_bio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tv_bio"
+        android:text=""
         android:textSize="@dimen/_14ssp"
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_10sdp"
