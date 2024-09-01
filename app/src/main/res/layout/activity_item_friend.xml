@@ -17,17 +17,17 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <!-- Gambar profil atau ikon teman -->
+        <!-- Profile Image of the friend -->
         <ImageView
             android:id="@+id/img_friend"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_130sdp"
             android:src="@drawable/ic_profile_placeholder"
             android:scaleType="centerCrop"
-            android:background="#cccccc"
-            android:contentDescription="Profile Image"/>
+            android:contentDescription="Profile Image"
+            android:background="#cccccc"/>
 
-        <!-- Layout untuk menampilkan nama dan sekolah teman -->
+        <!-- Layout for displaying friend's name, school, and bio -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
             android:background="@color/white_pink"
             android:gravity="center_horizontal">
 
-            <!-- TextView untuk menampilkan nama teman -->
+            <!-- TextView to display friend's name -->
             <TextView
                 android:id="@+id/tv_friend_name"
                 android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
-            <!-- TextView untuk menampilkan sekolah teman -->
+            <!-- TextView to display friend's school -->
             <TextView
                 android:id="@+id/tv_friend_school"
                 android:layout_width="wrap_content"
@@ -54,6 +54,16 @@
                 android:text="School"
                 android:textColor="#888888"
                 android:textSize="14sp"/>
+
+            <!-- TextView to display friend's bio -->
+            <TextView
+                android:id="@+id/tv_friend_bio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bio"
+                android:textColor="#888888"
+                android:textSize="14sp"
+                android:visibility="invisible"/> <!-- Make bio visible -->
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

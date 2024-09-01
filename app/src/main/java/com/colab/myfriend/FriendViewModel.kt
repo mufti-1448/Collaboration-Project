@@ -20,9 +20,7 @@ class FriendViewModel(private val friendDao: FriendDao) : ViewModel() {
     }
 
     suspend fun editFriend(data: Friend) {
-        Log.d("DataNew", "TestViewModel 1")
         friendDao.update(data)
-        Log.d("DataNew", "TestViewModel 2")
     }
 
     suspend fun deleteFriend(data: Friend) {

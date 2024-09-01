@@ -2,12 +2,10 @@ package com.colab.myfriend
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Base64
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -24,7 +22,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.colab.friendlist.Friend
 import com.colab.myfriend.databinding.ActivityAddFriendBinding
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -35,7 +32,6 @@ class AddFriendActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddFriendBinding
     private lateinit var viewModel: FriendViewModel
     private lateinit var photoFile: File
-    private var photoStr: String = ""
     private var oldFriend: Friend? = null
     private var idFriend: Int = 0
 
@@ -43,7 +39,7 @@ class AddFriendActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
                 val parcelFileDescriptor = contentResolver.openFileDescriptor(
-                    it?.data?.data ?: return@registerForActivityResult, "r"
+                    it.data?.data ?: return@registerForActivityResult, "r"
                 )
                 val fileDescriptor = parcelFileDescriptor?.fileDescriptor
                 val inputStream = FileInputStream(fileDescriptor)
@@ -59,7 +55,6 @@ class AddFriendActivity : AppCompatActivity() {
 
                 val takenImage = BitmapFactory.decodeFile(photoFile.absolutePath)
                 binding.profileImage.setImageBitmap(takenImage)
-                photoStr = bitmapToString(takenImage)
             }
         }
 
@@ -160,9 +155,9 @@ class AddFriendActivity : AppCompatActivity() {
                     binding.etSchool.setText(friend?.school)
                     binding.etBio.setText(friend?.bio)
 
-                    if (friend?.photo?.isNotEmpty() == true) {
-                        val photo = stringToBitmap(friend.photo)
-                        binding.cameraButton.setImageBitmap(photo)
+                    if (friend?.photoPath?.isNotEmpty() == true) {
+                        val photo = BitmapFactory.decodeFile(friend.photoPath)
+                        binding.profileImage.setImageBitmap(photo)
                     }
                 }
             }
@@ -195,34 +190,18 @@ class AddFriendActivity : AppCompatActivity() {
         }
 
         if (oldFriend == null) {
-            val data = Friend(name, school, bio, photoStr)
+            val data = Friend(name, school, bio, photoFile.absolutePath) // Save new friend with photoPath
             lifecycleScope.launch {
                 viewModel.insertFriend(data)
             }
         } else {
-            if (name == oldFriend?.name && school == oldFriend?.school && bio == oldFriend?.bio && photoStr.isEmpty()) {
-                Toast.makeText(this, "Data not change", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            val data: Friend
-            if (photoStr.isEmpty()) {
-                data = oldFriend!!.copy(
-                    name = name,
-                    school = school,
-                    bio = bio
-                ).apply {
-                    id = idFriend
-                }
-            } else {
-                data = oldFriend!!.copy(
-                    name = name,
-                    school = school,
-                    bio = bio,
-                    photo = photoStr
-                ).apply {
-                    id = idFriend
-                }
+            val data: Friend = oldFriend!!.copy(
+                name = name,
+                school = school,
+                bio = bio,
+                photoPath = photoFile.absolutePath
+            ).apply {
+                id = idFriend
             }
 
             lifecycleScope.launch {
@@ -242,22 +221,5 @@ class AddFriendActivity : AppCompatActivity() {
     private fun createImageFile(): File {
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile("PHOTO_", ".jpg", storageDir)
-    }
-
-    fun bitmapToString(bitmap: Bitmap): String {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
-        val byteArray = byteArrayOutputStream.toByteArray()
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
-    }
-
-    fun stringToBitmap(encodedString: String): Bitmap? {
-        return try {
-            val byteArray = Base64.decode(encodedString, Base64.DEFAULT)
-            BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-        } catch (e: IllegalArgumentException) {
-            e.printStackTrace()
-            null
-        }
     }
 }

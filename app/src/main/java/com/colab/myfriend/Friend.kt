@@ -9,7 +9,7 @@ data class Friend(
     var name: String,
     var school: String,
     var bio: String,
-    var photo: String = ""
+    var photoPath: String? // Path dari file gambar
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

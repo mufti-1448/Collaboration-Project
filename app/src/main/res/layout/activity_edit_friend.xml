@@ -1,133 +1,136 @@
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".AddFriendActivity">
+    tools:context=".EditFriendActivity">
 
-    <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:elevation="@dimen/_4sdp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
-
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:src="@drawable/ic_back"
-            android:contentDescription="@string/des_btn_back"
-            android:layout_gravity="start" />
-
-        <TextView
-            android:id="@+id/toolbarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/edit_friend"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/_20ssp"
-            android:layout_gravity="start"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:gravity="center" />
-
-        <ImageButton
-            android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:src="@drawable/ic_save"
-            android:contentDescription="@string/des_btn_save"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/_20sdp"/>
-    </androidx.appcompat.widget.Toolbar>
-
-    <!-- Image with camera icon -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:background="#BDBDBD">
-
-        <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/image_friend"
-            android:src="@drawable/ic_profile_placeholder" />
-
-        <ImageButton
-            android:id="@+id/cameraButton"
-            android:layout_width="@dimen/_48sdp"
-            android:layout_height="@dimen/_48sdp"
-            android:layout_marginStart="@dimen/_250sdp"
-            android:layout_marginTop="@dimen/_290sdp"
-            android:background="@drawable/bg_button_rounded"
-            android:contentDescription="@string/des_btn_camera"
-            android:src="@drawable/ic_camera" />
-    </RelativeLayout>
-
-    <!-- Form Fields -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/_16sdp">
+        android:orientation="vertical">
 
-        <!-- Name field -->
-        <com.google.android.material.textfield.TextInputLayout
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_16sdp">
+            android:background="@color/white"
+            android:elevation="@dimen/_4sdp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etName"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/name_hint"
-                android:text=""
-                android:drawableStart="@drawable/ic_person"
-                android:drawablePadding="@dimen/_8sdp" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:background="@color/white"
+                android:src="@drawable/ic_back"
+                android:contentDescription="@string/des_btn_back"
+                android:layout_gravity="start" />
 
-        <!-- School field -->
-        <com.google.android.material.textfield.TextInputLayout
+            <TextView
+                android:id="@+id/toolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit_friend"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20ssp"
+                android:layout_gravity="start"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:gravity="center" />
+
+            <ImageView
+                android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:src="@drawable/ic_save"
+                android:contentDescription="@string/des_btn_save"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/_20sdp"/>
+        </androidx.appcompat.widget.Toolbar>
+
+        <!-- Image with camera icon -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_360sdp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_profile_placeholder"
+                android:contentDescription="@string/image_friend"/>
+
+            <ImageButton
+                android:id="@+id/cameraButton"
+                android:layout_width="@dimen/_48sdp"
+                android:layout_height="@dimen/_48sdp"
+                android:layout_marginTop="@dimen/_290sdp"
+                android:layout_marginStart="@dimen/_250sdp"
+                android:background="@drawable/bg_button_rounded"
+                android:contentDescription="@string/des_btn_camera"
+                android:src="@drawable/ic_camera" />
+        </FrameLayout>
+
+        <!-- Form Fields -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_16sdp">
+            android:orientation="vertical"
+            android:padding="@dimen/_16sdp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etSchool"
+            <!-- Name field -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/school_hint"
-                android:text=""
-                android:drawableStart="@drawable/ic_school"
-                android:drawablePadding="@dimen/_8sdp" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginBottom="@dimen/_16sdp">
 
-        <!-- Bio field -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_person"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:hint="@string/name_hint"
+                    android:text="" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etBio"
+            <!-- School field -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/bio_hint"
-                android:text=""
-                android:drawableStart="@drawable/ic_info"
-                android:drawablePadding="@dimen/_8sdp" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginBottom="@dimen/_16sdp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSchool"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/school_hint"
+                    android:text=""
+                    android:drawableStart="@drawable/ic_school"
+                    android:drawablePadding="@dimen/_8sdp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Bio field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/bio_hint"
+                    android:text=""
+                    android:drawableStart="@drawable/ic_info"
+                    android:drawablePadding="@dimen/_8sdp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

@@ -2,6 +2,8 @@ package com.colab.myfriend
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -15,43 +17,61 @@ class MenuHomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMenuHomeBinding
     private lateinit var adapter: FriendAdapter
-
-    // Initialize the ViewModel using the 'by viewModels' delegate
     private val viewModel: FriendViewModel by viewModels {
         FriendVMFactory(applicationContext)
     }
+
+    private var friendList: List<Friend> = listOf()  // Store all friends for filtering
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMenuHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize the adapter with an empty list
         adapter = FriendAdapter(emptyList()) { friend ->
-            // Handle item click, e.g., start a new activity
             val intent = Intent(this, DetailFriendActivity::class.java).apply {
                 putExtra("EXTRA_NAME", friend.name)
                 putExtra("EXTRA_SCHOOL", friend.school)
+                putExtra("EXTRA_BIO", friend.bio)
+                putExtra("EXTRA_IMAGE_PATH", friend.photoPath)  // Pass image file path
+                putExtra("EXTRA_ID", friend.id)
             }
             startActivity(intent)
         }
 
-        // Set up the RecyclerView
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
         binding.recyclerView.adapter = adapter
 
-        // Collect the Flow from the ViewModel
         lifecycleScope.launch {
             viewModel.getFriend().collect { friends ->
-                // Update adapter's data whenever the list changes
+                friendList = friends  // Cache the full list
                 adapter.updateData(friends)
             }
         }
 
-        // Handle add friend button click
+        // Add TextWatcher to filter friends based on search input
+        binding.searchBar.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                filterFriends(s.toString())
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
         binding.btnAddFriend.setOnClickListener {
             val intent = Intent(this, AddFriendActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun filterFriends(query: String) {
+        val filteredList = if (query.isEmpty()) {
+            friendList
+        } else {
+            friendList.filter { friend ->
+                friend.name.contains(query, ignoreCase = true)
+            }
+        }
+        adapter.updateData(filteredList)
     }
 }

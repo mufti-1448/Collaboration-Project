@@ -1,122 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailFriendActivity"
     android:orientation="vertical">
 
-    <!--Toolbar-->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <!-- Root LinearLayout inside ScrollView -->
+    <LinearLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/_40sdp">
+        android:orientation="vertical">
 
+        <!--Toolbar-->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_40sdp">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:layout_gravity="start"
+                android:contentDescription="@string/des_btn_back"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/toolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:gravity="center"
+                android:text="@string/detail_friend"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20ssp" />
+
+            <ImageView
+                android:id="@+id/deleteButton"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:contentDescription="@string/button_edit"
+                android:src="@drawable/ic_delete" />
+
+            <ImageView
+                android:id="@+id/editButton"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:contentDescription="@string/button_delete"
+                android:src="@drawable/ic_edit" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <!--Image view for displaying images from RecyclerView-->
         <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="@dimen/_23sdp"
-            android:layout_height="@dimen/_23sdp"
-            android:layout_gravity="start"
-            android:contentDescription="@string/des_btn_back"
-            android:src="@drawable/ic_back" />
+            android:id="@+id/profileImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_360sdp"
+            android:src="@drawable/ic_profile_placeholder"
+            android:contentDescription="@string/image_friend" />
 
         <TextView
-            android:id="@+id/toolbarTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:gravity="center"
-            android:text="@string/detail_friend"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_20ssp" />
-        <ImageView
-            android:id="@+id/deleteButton"
-            android:layout_width="@dimen/_23sdp"
-            android:layout_height="@dimen/_23sdp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:contentDescription="@string/button_edit"
-            android:src="@drawable/ic_delete" />
+            android:text="@string/name_hint"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp" />
 
-        <ImageView
-            android:id="@+id/editButton"
-            android:layout_width="@dimen/_23sdp"
-            android:layout_height="@dimen/_23sdp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:contentDescription="@string/button_delete"
-            android:src="@drawable/ic_edit" />
-    </androidx.appcompat.widget.Toolbar>
+        <!--TextView for displaying the name-->
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="@dimen/_14ssp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:drawableStartCompat="@drawable/ic_person"
+            android:drawablePadding="@dimen/_8sdp" />
 
-    <!--Image view untuk menampilkan gambar dari recycleview-->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_360sdp"
-        android:src="@drawable/ic_profile_placeholder"
-        android:contentDescription="@string/image_friend"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/school_hint"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/name_hint"
-        android:textSize="@dimen/_12ssp"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_20sdp"/>
+        <!--TextView for displaying the school-->
+        <TextView
+            android:id="@+id/tv_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_8sdp"
+            android:text=""
+            android:textSize="@dimen/_14ssp"
+            app:drawableStartCompat="@drawable/ic_school" />
 
-    <!--Textview untuk menampilkan nama-->
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="@dimen/_14ssp"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:drawableStartCompat="@drawable/ic_person"
-        android:drawablePadding="@dimen/_8sdp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bio_hint"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/school_hint"
-        android:textSize="@dimen/_12ssp"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_20sdp"/>
+        <!--TextView for displaying bio-->
+        <TextView
+            android:id="@+id/tv_bio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="@dimen/_14ssp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:drawableStartCompat="@drawable/ic_info"
+            android:drawablePadding="@dimen/_8sdp" />
 
-    <!--Textview untuk menampilkan sekolah-->
-    <TextView
-        android:id="@+id/tv_school"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:drawablePadding="@dimen/_8sdp"
-        android:text=""
-        android:textSize="@dimen/_14ssp"
-        app:drawableStartCompat="@drawable/ic_school" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/bio_hint"
-        android:textSize="@dimen/_12ssp"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_20sdp"/>
-
-    <!--Textview untuk menampilkan sekolah-->
-    <TextView
-        android:id="@+id/tv_bio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="@dimen/_14ssp"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:drawableStartCompat="@drawable/ic_info"
-        android:drawablePadding="@dimen/_8sdp"/>
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
