@@ -8,9 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.colab.friendlist.Friend
 import com.colab.myfriend.databinding.ActivityMenuHomeBinding
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class MenuHomeActivity : AppCompatActivity() {

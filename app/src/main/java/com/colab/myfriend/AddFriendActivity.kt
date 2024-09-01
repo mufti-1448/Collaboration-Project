@@ -1,25 +1,29 @@
 package com.colab.myfriend
 
+import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.colab.friendlist.Friend
 import com.colab.myfriend.databinding.ActivityAddFriendBinding
 import kotlinx.coroutines.launch
 import java.io.File
@@ -34,8 +38,38 @@ class AddFriendActivity : AppCompatActivity() {
     private lateinit var photoFile: File
     private var oldFriend: Friend? = null
     private var idFriend: Int = 0
+    private var isImageChanged = false // Variabel untuk memeriksa apakah gambar telah diubah
 
-    private var galleryLauncher =
+    // Request permission launcher for camera
+    private val requestCameraPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                takePhoto()
+            } else {
+                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    // Request permission launcher for storage (gallery)
+    private val requestStoragePermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                openGallery()
+            } else {
+                Toast.makeText(this, "Storage permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    private val cameraLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val rotatedImage = rotateImageIfRequired(photoFile.absolutePath)
+                binding.profileImage.setImageBitmap(rotatedImage)
+                isImageChanged = true // Setel gambar telah diubah
+            }
+        }
+
+    private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
                 val parcelFileDescriptor = contentResolver.openFileDescriptor(
@@ -53,16 +87,9 @@ class AddFriendActivity : AppCompatActivity() {
 
                 parcelFileDescriptor?.close()
 
-                val takenImage = BitmapFactory.decodeFile(photoFile.absolutePath)
-                binding.profileImage.setImageBitmap(takenImage)
-            }
-        }
-
-    private var cameraLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val takenImage = BitmapFactory.decodeFile(photoFile.absolutePath)
-                binding.profileImage.setImageBitmap(takenImage)
+                val rotatedImage = rotateImageIfRequired(photoFile.absolutePath)
+                binding.profileImage.setImageBitmap(rotatedImage)
+                isImageChanged = true // Setel gambar telah diubah
             }
         }
 
@@ -71,14 +98,15 @@ class AddFriendActivity : AppCompatActivity() {
 
         binding = ActivityAddFriendBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        enableEdgeToEdge()
 
+        // Edge-to-edge configuration
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Create file to save photo
         photoFile = try {
             createImageFile()
         } catch (ex: IOException) {
@@ -86,8 +114,10 @@ class AddFriendActivity : AppCompatActivity() {
             return
         }
 
+        // Get friend ID from intent
         idFriend = intent.getIntExtra("id", 0)
 
+        // Initialize ViewModel
         viewModel = ViewModelProvider(this, FriendVMFactory(this))[FriendViewModel::class.java]
 
         if (idFriend != 0) {
@@ -105,7 +135,6 @@ class AddFriendActivity : AppCompatActivity() {
 
         binding.cameraButton.setOnClickListener {
             showInsertPhotoDialog()
-            Toast.makeText(this, "Pick Photo clicked", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -118,14 +147,20 @@ class AddFriendActivity : AppCompatActivity() {
         val pickGallery = dialogView.findViewById<TextView>(R.id.pick_gallery)
 
         fromCamera.setOnClickListener {
-            takePhoto()
-            Toast.makeText(this, "From Camera selected", Toast.LENGTH_SHORT).show()
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                takePhoto()
+            } else {
+                requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
             alertDialog.dismiss()
         }
 
         pickGallery.setOnClickListener {
-            openGallery()
-            Toast.makeText(this, "Pick Gallery selected", Toast.LENGTH_SHORT).show()
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                openGallery()
+            } else {
+                requestStoragePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
             alertDialog.dismiss()
         }
 
@@ -146,6 +181,11 @@ class AddFriendActivity : AppCompatActivity() {
         }
     }
 
+    private fun openGallery() {
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        galleryLauncher.launch(galleryIntent)
+    }
+
     private fun getFriend() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -158,6 +198,7 @@ class AddFriendActivity : AppCompatActivity() {
                     if (friend?.photoPath?.isNotEmpty() == true) {
                         val photo = BitmapFactory.decodeFile(friend.photoPath)
                         binding.profileImage.setImageBitmap(photo)
+                        isImageChanged = false // Gambar belum diubah dari foto yang sudah ada
                     }
                 }
             }
@@ -165,29 +206,52 @@ class AddFriendActivity : AppCompatActivity() {
     }
 
     private fun showSaveDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Add Friend")
-        builder.setMessage("Are you sure you want to add this friend?")
-        builder.setPositiveButton("Save") { dialog, which ->
-            addData()
-            Toast.makeText(this, "Friend saved", Toast.LENGTH_SHORT).show()
-            finish()
+        if (isFormValid()) {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Add Friend")
+            builder.setMessage("Are you sure you want to add this friend?")
+            builder.setPositiveButton("Save") { _, _ ->
+                addData()
+                Toast.makeText(this, "Friend saved", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            builder.create().show()
         }
-        builder.setNegativeButton("Cancel") { dialog, which ->
-            dialog.dismiss()
+    }
+
+    private fun isFormValid(): Boolean {
+        val name = binding.etName.text.toString().trim()
+        val school = binding.etSchool.text.toString().trim()
+        val bio = binding.etBio.text.toString().trim()
+
+        return when {
+            name.isEmpty() -> {
+                Toast.makeText(this, "Please fill in the name", Toast.LENGTH_SHORT).show()
+                false
+            }
+            school.isEmpty() -> {
+                Toast.makeText(this, "Please fill in the school", Toast.LENGTH_SHORT).show()
+                false
+            }
+            bio.isEmpty() -> {
+                Toast.makeText(this, "Please fill in the bio", Toast.LENGTH_SHORT).show()
+                false
+            }
+            !isImageChanged -> {
+                Toast.makeText(this, "Please change the image", Toast.LENGTH_SHORT).show()
+                false
+            }
+            else -> true
         }
-        builder.create().show()
     }
 
     private fun addData() {
         val name = binding.etName.text.toString().trim()
         val school = binding.etSchool.text.toString().trim()
         val bio = binding.etBio.text.toString().trim()
-
-        if (name.isEmpty() || school.isEmpty() || bio.isEmpty()) {
-            Toast.makeText(this, "Please fill the blank form", Toast.LENGTH_SHORT).show()
-            return
-        }
 
         if (oldFriend == null) {
             val data = Friend(name, school, bio, photoFile.absolutePath) // Save new friend with photoPath
@@ -212,14 +276,29 @@ class AddFriendActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun openGallery() {
-        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        galleryLauncher.launch(galleryIntent)
-    }
-
     @Throws(IOException::class)
     private fun createImageFile(): File {
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile("PHOTO_", ".jpg", storageDir)
+    }
+
+    private fun rotateImageIfRequired(imagePath: String): Bitmap {
+        val bitmap = BitmapFactory.decodeFile(imagePath)
+        val ei = ExifInterface(imagePath)
+        val orientation: Int = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
+
+        return when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(bitmap, 90f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(bitmap, 180f)
+            ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(bitmap, 270f)
+            ExifInterface.ORIENTATION_NORMAL -> bitmap
+            else -> bitmap
+        }
+    }
+
+    private fun rotateImage(bitmap: Bitmap, degree: Float): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(degree)
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 }

@@ -1,4 +1,4 @@
-package com.colab.friendlist
+package com.colab.myfriend
 
 // Kelas data untuk merepresentasikan informasi teman
 import androidx.room.Entity

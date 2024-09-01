@@ -2,13 +2,17 @@ package com.colab.myfriend
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -17,13 +21,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.colab.friendlist.Friend
 import com.colab.myfriend.databinding.ActivityEditFriendBinding
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import androidx.exifinterface.media.ExifInterface
+import androidx.activity.enableEdgeToEdge
 
 class EditFriendActivity : AppCompatActivity() {
 
@@ -50,8 +55,8 @@ class EditFriendActivity : AppCompatActivity() {
 
                 parcelFileDescriptor.close()
 
-                val takenImage = BitmapFactory.decodeFile(photoFile.absolutePath)
-                binding.profileImage.setImageBitmap(takenImage)
+                val orientedBitmap = getOrientedBitmap(photoFile.absolutePath)
+                binding.profileImage.setImageBitmap(orientedBitmap)
                 currentPhotoPath = photoFile.absolutePath // Perbarui jalur foto dengan yang baru
             }
         }
@@ -59,8 +64,8 @@ class EditFriendActivity : AppCompatActivity() {
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                val takenImage = BitmapFactory.decodeFile(photoFile.absolutePath)
-                binding.profileImage.setImageBitmap(takenImage)
+                val orientedBitmap = getOrientedBitmap(photoFile.absolutePath)
+                binding.profileImage.setImageBitmap(orientedBitmap)
                 currentPhotoPath = photoFile.absolutePath // Perbarui jalur foto dengan yang baru
             }
         }
@@ -101,8 +106,8 @@ class EditFriendActivity : AppCompatActivity() {
         currentPhotoPath?.let {
             val photoFile = File(it)
             if (photoFile.exists()) {
-                val photo = BitmapFactory.decodeFile(photoFile.absolutePath)
-                binding.profileImage.setImageBitmap(photo)
+                val orientedBitmap = getOrientedBitmap(photoFile.absolutePath)
+                binding.profileImage.setImageBitmap(orientedBitmap)
             } else {
                 Toast.makeText(this, "Image file not found", Toast.LENGTH_SHORT).show()
             }
@@ -126,6 +131,30 @@ class EditFriendActivity : AppCompatActivity() {
         binding.cameraButton.setOnClickListener {
             showInsertPhotoDialog()
         }
+
+        setupKeyboardHandling()
+    }
+
+    private fun setupKeyboardHandling() {
+        val rootView = findViewById<View>(android.R.id.content)
+        rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                rootView.getWindowVisibleDisplayFrame(rect)
+                val screenHeight = rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+                if (keypadHeight > screenHeight * 0.15) { // keyboard is opened
+                    // Adjust layout or scroll to make sure EditText is visible
+                    // For example, you can scroll to the focused EditText
+                    val focusedView = currentFocus
+                    if (focusedView != null) {
+                        focusedView.post {
+                            focusedView.scrollIntoView()
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun showInsertPhotoDialog() {
@@ -174,8 +203,8 @@ class EditFriendActivity : AppCompatActivity() {
                 friend?.photoPath?.let { path ->
                     val photoFile = File(path)
                     if (photoFile.exists()) {
-                        val photo = BitmapFactory.decodeFile(photoFile.absolutePath)
-                        binding.profileImage.setImageBitmap(photo)
+                        val orientedBitmap = getOrientedBitmap(photoFile.absolutePath)
+                        binding.profileImage.setImageBitmap(orientedBitmap)
                         currentPhotoPath = path // Tetapkan jalur foto yang diambil dari data teman
                     } else {
                         Toast.makeText(this@EditFriendActivity, "Image file not found", Toast.LENGTH_SHORT).show()
@@ -244,11 +273,37 @@ class EditFriendActivity : AppCompatActivity() {
         return File.createTempFile("PHOTO_", ".jpg", storageDir)
     }
 
+    private fun getOrientedBitmap(filePath: String): Bitmap {
+        val bitmap = BitmapFactory.decodeFile(filePath)
+        val exif = ExifInterface(filePath)
+        val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
+        }
+
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    }
+
     private fun navigateToDetailFriend() {
         val destination = Intent(this, DetailFriendActivity::class.java).apply {
             putExtra("EXTRA_ID", idFriend)
         }
         startActivity(destination)
         finish()
+    }
+
+    private fun View.scrollIntoView() {
+        post {
+            val rect = Rect()
+            getWindowVisibleDisplayFrame(rect)
+            val scrollY = bottom - rect.bottom
+            if (scrollY > 0) {
+                scrollBy(0, scrollY)
+            }
+        }
     }
 }

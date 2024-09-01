@@ -1,14 +1,18 @@
 package com.colab.myfriend
 
+import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import androidx.exifinterface.media.ExifInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.colab.friendlist.Friend
 import java.io.File
+import java.io.IOException
 
 class FriendAdapter(
     private var friendList: List<Friend>,
@@ -28,6 +32,7 @@ class FriendAdapter(
 
     override fun getItemCount(): Int = friendList.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newFriends: List<Friend>) {
         friendList = newFriends
         notifyDataSetChanged()
@@ -46,10 +51,10 @@ class FriendAdapter(
 
             // Set profile image from file path if available, else use a placeholder
             if (friend.photoPath?.isNotEmpty() == true) {
-                val imgFile = File(friend.photoPath)
+                val imgFile = File(friend.photoPath!!)
                 if (imgFile.exists()) {
-                    val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-                    profileImageView.setImageBitmap(bitmap)
+                    val rotatedBitmap = rotateImageIfRequired(imgFile)
+                    profileImageView.setImageBitmap(rotatedBitmap)
                 } else {
                     profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
                 }
@@ -61,6 +66,29 @@ class FriendAdapter(
             itemView.setOnClickListener {
                 onItemClick(friend)
             }
+        }
+
+        private fun rotateImageIfRequired(imgFile: File): Bitmap? {
+            val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+            try {
+                val exif = ExifInterface(imgFile.absolutePath)
+                val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+
+                return when (orientation) {
+                    ExifInterface.ORIENTATION_ROTATE_90 -> rotateBitmap(bitmap, 90f)
+                    ExifInterface.ORIENTATION_ROTATE_180 -> rotateBitmap(bitmap, 180f)
+                    ExifInterface.ORIENTATION_ROTATE_270 -> rotateBitmap(bitmap, 270f)
+                    else -> bitmap
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            return bitmap
+        }
+
+        private fun rotateBitmap(bitmap: Bitmap, degrees: Float): Bitmap {
+            val matrix = Matrix().apply { postRotate(degrees) }
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
         }
     }
 }

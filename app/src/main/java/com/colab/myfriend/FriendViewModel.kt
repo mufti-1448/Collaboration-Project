@@ -1,15 +1,8 @@
 package com.colab.myfriend
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.colab.friendlist.Friend
-import kotlinx.coroutines.flow.Flow
-
 
 class FriendViewModel(private val friendDao: FriendDao) : ViewModel() {
-
-    fun getFriends(): Flow<List<Friend>> = friendDao.getAll()
 
     fun getFriend() = friendDao.getAll()
 

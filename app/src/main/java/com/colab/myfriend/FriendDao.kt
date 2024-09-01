@@ -1,8 +1,6 @@
 package com.colab.myfriend
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.colab.friendlist.Friend
 import kotlinx.coroutines.flow.Flow
 
 @Dao

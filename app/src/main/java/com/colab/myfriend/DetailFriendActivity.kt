@@ -1,7 +1,9 @@
 package com.colab.myfriend
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.colab.myfriend.databinding.ActivityDetailFriendBinding
 import kotlinx.coroutines.launch
 import java.io.File
+import androidx.exifinterface.media.ExifInterface
 
 class DetailFriendActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailFriendBinding
@@ -24,7 +27,7 @@ class DetailFriendActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Initialize ViewModel using FriendVMFactory
-        viewModel = ViewModelProvider(this, FriendVMFactory(applicationContext)).get(FriendViewModel::class.java)
+        viewModel = ViewModelProvider(this, FriendVMFactory(applicationContext))[FriendViewModel::class.java]
 
         // Retrieve Friend ID from the Intent
         friendId = intent.getIntExtra("EXTRA_ID", 0)
@@ -44,7 +47,8 @@ class DetailFriendActivity : AppCompatActivity() {
         }
 
         binding.backButton.setOnClickListener {
-            finish()
+            val destination = Intent(this, MenuHomeActivity::class.java)
+            startActivity(destination)
         }
 
         binding.deleteButton.setOnClickListener {
@@ -63,10 +67,11 @@ class DetailFriendActivity : AppCompatActivity() {
                     binding.tvBio.text = friend.bio
 
                     if (!friend.photoPath.isNullOrEmpty()) {
-                        val imgFile = File(friend.photoPath)
+                        val imgFile = File(friend.photoPath!!)
                         if (imgFile.exists()) {
                             val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-                            binding.profileImage.setImageBitmap(bitmap)
+                            val orientedBitmap = getOrientedBitmap(imgFile.absolutePath, bitmap)
+                            binding.profileImage.setImageBitmap(orientedBitmap)
                         } else {
                             binding.profileImage.setImageResource(R.drawable.ic_profile_placeholder)
                         }
@@ -78,6 +83,20 @@ class DetailFriendActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun getOrientedBitmap(filePath: String, bitmap: Bitmap): Bitmap {
+        val exif = ExifInterface(filePath)
+        val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
+        }
+
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
     private fun setDrawable() {
@@ -99,7 +118,7 @@ class DetailFriendActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Remove Friend")
         builder.setMessage("Are you sure you want to remove this friend?")
-        builder.setPositiveButton("Remove") { dialog, _ ->
+        builder.setPositiveButton("Remove") { _, _ ->
             deleteFriend()
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
@@ -124,7 +143,7 @@ class DetailFriendActivity : AppCompatActivity() {
                 }
             }
         } else {
-            Log.e("DeleteFriend", "Invalid ID: $friendId")
+            Log.e("DeleteFriend", "Invalid ID: ${this.friendId}")
         }
     }
 }
