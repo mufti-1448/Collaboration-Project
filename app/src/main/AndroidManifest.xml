@@ -25,6 +25,7 @@
 
         <activity
             android:name=".EditFriendActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true" >
 
         </activity>
