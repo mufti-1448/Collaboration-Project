@@ -33,8 +33,8 @@ import java.io.IOException
 
 class AddFriendActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAddFriendBinding
-    private lateinit var viewModel: FriendViewModel
+    private lateinit var binding: ActivityAddFriendBinding // Menghubungkan view binding untuk mengakses elemen UI pada layout XML
+    private lateinit var viewModel: FriendViewModel // View model yang mengelola data teman
     private lateinit var photoFile: File // File tempat penyimpanan foto
     private var oldFriend: Friend? = null // Teman lama (digunakan saat mengedit data)
     private var idFriend: Int = 0 // ID teman yang akan di-edit
