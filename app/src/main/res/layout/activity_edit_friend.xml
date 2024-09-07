@@ -1,6 +1,5 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -15,42 +14,24 @@
         <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:elevation="@dimen/_4sdp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+            style="@style/toolbar" >
 
             <ImageView
                 android:id="@+id/backButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
+                style="@style/backButton"
                 android:src="@drawable/ic_back"
-                android:contentDescription="@string/des_btn_back"
-                android:layout_gravity="start" />
+                android:contentDescription="@string/des_btn_back" />
 
             <TextView
                 android:id="@+id/toolbarTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/edit_friend"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_20ssp"
-                android:layout_gravity="start"
-                android:layout_marginStart="@dimen/_30sdp"
-                android:gravity="center" />
+                style="@style/tittleToolbar"
+                android:text="@string/edit_friend" />
 
             <ImageView
                 android:id="@+id/saveButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
+                style="@style/iconToolbar"
                 android:src="@drawable/ic_save"
-                android:contentDescription="@string/des_btn_save"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/_20sdp"/>
+                android:contentDescription="@string/des_btn_save" />
         </androidx.appcompat.widget.Toolbar>
 
         <!-- Image with camera icon -->
@@ -70,11 +51,12 @@
                 android:id="@+id/cameraButton"
                 android:layout_width="@dimen/_48sdp"
                 android:layout_height="@dimen/_48sdp"
-                android:layout_marginTop="@dimen/_290sdp"
                 android:layout_marginStart="@dimen/_250sdp"
+                android:layout_marginTop="@dimen/_290sdp"
                 android:background="@drawable/bg_button_rounded"
                 android:contentDescription="@string/des_btn_camera"
-                android:src="@drawable/ic_camera" />
+                android:src="@drawable/ic_camera"
+                tools:ignore="DuplicateSpeakableTextCheck" />
         </FrameLayout>
 
         <!-- Form Fields -->
@@ -92,12 +74,14 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etName"
+                    style="@style/displayTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_person"
                     android:drawablePadding="@dimen/_8sdp"
                     android:hint="@string/name_hint"
-                    android:text="" />
+                    android:text=""
+                    tools:ignore="VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- School field -->
@@ -108,12 +92,14 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etSchool"
+                    style="@style/displayTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/school_hint"
                     android:text=""
                     android:drawableStart="@drawable/ic_school"
-                    android:drawablePadding="@dimen/_8sdp" />
+                    android:drawablePadding="@dimen/_8sdp"
+                    tools:ignore="VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Bio field -->
@@ -124,12 +110,14 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etBio"
+                    style="@style/displayTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/bio_hint"
                     android:text=""
                     android:drawableStart="@drawable/ic_info"
-                    android:drawablePadding="@dimen/_8sdp" />
+                    android:drawablePadding="@dimen/_8sdp"
+                    tools:ignore="VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </LinearLayout>

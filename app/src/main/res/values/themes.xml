@@ -6,30 +6,79 @@
     </style>
 
     <style name="Theme.MyFriend" parent="Base.Theme.MyFriend" />
-    <style name="card_view">
+
+    <style name="toolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/_16sdp</item>
-
-    </style>
-    <style name="image">
-        <item name="android:layout_width">@dimen/_80sdp</item>
-        <item name="android:layout_height">@dimen/_80sdp</item>
-        <item name="android:layout_margin">@dimen/_16sdp</item>
-        <item name="android:layout_marginStart">@dimen/_16sdp</item>
-
+        <item name="android:background">@color/white</item>
     </style>
 
-    <style name="linera_layout">
+    <style name="backButton">
+        <item name="android:layout_width">@dimen/_20sdp</item>
+        <item name="android:layout_height">@dimen/_20sdp</item>
+        <item name="android:tint">@color/black</item>
+        <item name="android:layout_gravity">start</item>
+    </style>
+
+    <style name="iconToolbar">
+        <item name="android:layout_width">@dimen/_20sdp</item>
+        <item name="android:layout_height">@dimen/_20sdp</item>
+        <item name="android:tint">@color/black</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:layout_marginEnd">@dimen/_20sdp</item>
+    </style>
+
+    <style name="tittleToolbar">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingStart">@dimen/_20sdp</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:layout_marginStart">@dimen/_16sdp</item>
+        <item name="android:layout_gravity">start</item>
+        <item name="android:layout_marginStart">@dimen/_30sdp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/_20ssp</item>
     </style>
-    <style name="text_view">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/_16ssp</item>
+
+    <style name="textTheme">
+        <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="imageTheme">
+        <item name="android:tint">@color/black</item>
+    </style>
+
+    <style name="displayTheme">
+        <item name="android:drawableTint">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="cardTheme">
+        <item name="cardBackgroundColor">@color/darkWhite</item>
+    </style>
+
+    <style name="subCardTheme">
+        <item name="android:background">@color/white_pink</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/purple</item>
+    </style>
+
+    <style name="mainImageTheme">
+        <item name="android:src">@drawable/im_teman</item>
+        <item name="android:background">@color/orange</item>
+    </style>
+
+    <style name="btnAddTheme">
+        <item name="android:backgroundTint">@color/white_pink</item>
+        <item name="android:tint">@color/black</item>
+    </style>
+
+    <style name="searchTheme">
+        <item name="android:backgroundTint">@color/white_pink</item>
+        <item name="android:drawableTint">@color/black</item>
+        <item name="android:textColorHint">@color/gray2</item>
+    </style>
+
 </resources>

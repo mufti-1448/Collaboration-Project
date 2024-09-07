@@ -3,39 +3,39 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="@dimen/_16sdp"
     android:backgroundTint="@android:color/transparent"
     android:background="@drawable/rounded_dialog_background">
 
     <TextView
         android:id="@+id/title"
+        style="@style/textTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Insert Photo"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black" />
+        android:text="@string/insert_photo"
+        android:textSize="@dimen/_14ssp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/from_camera"
+        style="@style/textTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="From Camera"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
-        android:paddingVertical="12dp" />
+        android:text="@string/from_camera"
+        android:textSize="@dimen/_12ssp"
+        android:paddingVertical="@dimen/_8sdp" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/_1sdp"
         android:background="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/pick_gallery"
+        style="@style/textTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pick Gallery"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
-        android:paddingVertical="12dp" />
+        android:text="@string/pick_gallery"
+        android:textSize="@dimen/_12ssp"
+        android:paddingVertical="@dimen/_8sdp" />
 </LinearLayout>

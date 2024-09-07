@@ -35,40 +35,42 @@ class AddFriendActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddFriendBinding
     private lateinit var viewModel: FriendViewModel
-    private lateinit var photoFile: File
-    private var oldFriend: Friend? = null
-    private var idFriend: Int = 0
+    private lateinit var photoFile: File // File tempat penyimpanan foto
+    private var oldFriend: Friend? = null // Teman lama (digunakan saat mengedit data)
+    private var idFriend: Int = 0 // ID teman yang akan di-edit
     private var isImageChanged = false // Variabel untuk memeriksa apakah gambar telah diubah
 
-    // Request permission launcher for camera
+    // Launcher untuk meminta izin penggunaan kamera
     private val requestCameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                takePhoto()
+                takePhoto() // Jika izin kamera diberikan, ambil foto
             } else {
                 Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
             }
         }
 
-    // Request permission launcher for storage (gallery)
+    // Launcher untuk meminta izin akses penyimpanan (galeri)
     private val requestStoragePermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                openGallery()
+                openGallery() // Jika izin penyimpanan diberikan, buka galeri
             } else {
                 Toast.makeText(this, "Storage permission denied", Toast.LENGTH_SHORT).show()
             }
         }
 
+    // Launcher untuk mengambil gambar dengan kamera
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                val rotatedImage = rotateImageIfRequired(photoFile.absolutePath)
-                binding.profileImage.setImageBitmap(rotatedImage)
+                val rotatedImage = rotateImageIfRequired(photoFile.absolutePath) // Rotasi gambar jika diperlukan
+                binding.profileImage.setImageBitmap(rotatedImage) // Tampilkan gambar di ImageView
                 isImageChanged = true // Setel gambar telah diubah
             }
         }
 
+    // Launcher untuk memilih gambar dari galeri
     private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
@@ -79,6 +81,7 @@ class AddFriendActivity : AppCompatActivity() {
                 val inputStream = FileInputStream(fileDescriptor)
                 val outputStream = FileOutputStream(photoFile)
 
+                // Salin gambar dari galeri ke file foto yang telah dibuat
                 inputStream.use { input ->
                     outputStream.use { output ->
                         input.copyTo(output)
@@ -96,48 +99,54 @@ class AddFriendActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Menggunakan ViewBinding untuk menghubungkan UI
         binding = ActivityAddFriendBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Edge-to-edge configuration
+        // Konfigurasi tampilan edge-to-edge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Create file to save photo
+        // Membuat file untuk menyimpan foto
         photoFile = try {
-            createImageFile()
+            createImageFile() // Fungsi untuk membuat file gambar
         } catch (ex: IOException) {
             Toast.makeText(this, "Cannot create Image File", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Get friend ID from intent
+        // Mengambil ID teman dari Intent
         idFriend = intent.getIntExtra("id", 0)
 
-        // Initialize ViewModel
+        // Inisialisasi ViewModel
         viewModel = ViewModelProvider(this, FriendVMFactory(this))[FriendViewModel::class.java]
 
+        // Jika ID teman tidak nol, ambil data teman untuk di-edit
         if (idFriend != 0) {
             getFriend()
         }
 
+        // Tombol simpan di klik
         binding.saveButton.setOnClickListener {
-            showSaveDialog()
+            showSaveDialog() // Tampilkan dialog konfirmasi simpan
         }
 
+        // Tombol kembali di klik
         binding.backButton.setOnClickListener {
             val destination = Intent(this, MenuHomeActivity::class.java)
             startActivity(destination)
         }
 
+        // Tombol kamera di klik
         binding.cameraButton.setOnClickListener {
-            showInsertPhotoDialog()
+            showInsertPhotoDialog() // Tampilkan dialog untuk memilih foto
         }
     }
 
+    // Menampilkan dialog untuk memilih foto dari kamera atau galeri
     private fun showInsertPhotoDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_insert_photo, null)
         val dialogBuilder = AlertDialog.Builder(this).setView(dialogView)
@@ -146,6 +155,7 @@ class AddFriendActivity : AppCompatActivity() {
         val fromCamera = dialogView.findViewById<TextView>(R.id.from_camera)
         val pickGallery = dialogView.findViewById<TextView>(R.id.pick_gallery)
 
+        // Pilih dari kamera
         fromCamera.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 takePhoto()
@@ -155,6 +165,7 @@ class AddFriendActivity : AppCompatActivity() {
             alertDialog.dismiss()
         }
 
+        // Pilih dari galeri
         pickGallery.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 openGallery()
@@ -167,6 +178,7 @@ class AddFriendActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
+    // Fungsi untuk mengambil foto menggunakan kamera
     private fun takePhoto() {
         val photoUri = FileProvider.getUriForFile(this, "com.colab.myfriend.fileprovider", photoFile)
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
@@ -181,11 +193,13 @@ class AddFriendActivity : AppCompatActivity() {
         }
     }
 
+    // Fungsi untuk membuka galeri
     private fun openGallery() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryLauncher.launch(galleryIntent)
     }
 
+    // Mendapatkan data teman berdasarkan ID
     private fun getFriend() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -195,23 +209,25 @@ class AddFriendActivity : AppCompatActivity() {
                     binding.etSchool.setText(friend?.school)
                     binding.etBio.setText(friend?.bio)
 
+                    // Menampilkan foto jika tersedia
                     if (friend?.photoPath?.isNotEmpty() == true) {
                         val photo = BitmapFactory.decodeFile(friend.photoPath)
                         binding.profileImage.setImageBitmap(photo)
-                        isImageChanged = false // Gambar belum diubah dari foto yang sudah ada
+                        isImageChanged = false // Gambar belum diubah
                     }
                 }
             }
         }
     }
 
+    // Menampilkan dialog konfirmasi simpan data
     private fun showSaveDialog() {
         if (isFormValid()) {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Add Friend")
             builder.setMessage("Are you sure you want to add this friend?")
             builder.setPositiveButton("Save") { _, _ ->
-                addData()
+                addData() // Menyimpan data
                 Toast.makeText(this, "Friend saved", Toast.LENGTH_SHORT).show()
                 finish()
             }
@@ -222,6 +238,7 @@ class AddFriendActivity : AppCompatActivity() {
         }
     }
 
+    // Memvalidasi form
     private fun isFormValid(): Boolean {
         val name = binding.etName.text.toString().trim()
         val school = binding.etSchool.text.toString().trim()
@@ -248,17 +265,20 @@ class AddFriendActivity : AppCompatActivity() {
         }
     }
 
+    // Menambah atau mengedit data teman
     private fun addData() {
         val name = binding.etName.text.toString().trim()
         val school = binding.etSchool.text.toString().trim()
         val bio = binding.etBio.text.toString().trim()
 
+        // Jika data teman lama kosong, tambahkan teman baru
         if (oldFriend == null) {
             val data = Friend(name, school, bio, photoFile.absolutePath) // Save new friend with photoPath
             lifecycleScope.launch {
                 viewModel.insertFriend(data)
             }
         } else {
+            // Edit data teman yang sudah ada
             val data: Friend = oldFriend!!.copy(
                 name = name,
                 school = school,
@@ -276,12 +296,14 @@ class AddFriendActivity : AppCompatActivity() {
         finish()
     }
 
+    // Membuat file untuk menyimpan gambar
     @Throws(IOException::class)
     private fun createImageFile(): File {
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile("PHOTO_", ".jpg", storageDir)
     }
 
+    // Fungsi untuk merotasi gambar jika diperlukan
     private fun rotateImageIfRequired(imagePath: String): Bitmap {
         val bitmap = BitmapFactory.decodeFile(imagePath)
         val ei = ExifInterface(imagePath)
@@ -296,6 +318,7 @@ class AddFriendActivity : AppCompatActivity() {
         }
     }
 
+    // Fungsi untuk merotasi bitmap gambar
     private fun rotateImage(bitmap: Bitmap, degree: Float): Bitmap {
         val matrix = Matrix()
         matrix.postRotate(degree)

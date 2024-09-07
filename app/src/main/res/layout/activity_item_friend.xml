@@ -2,67 +2,67 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:layout_width="@dimen/_120sdp"
+    style="@style/cardTheme"
+    android:layout_width="@dimen/_130sdp"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    card_view:cardCornerRadius="8dp"
-    card_view:cardElevation="4dp"
-    card_view:cardBackgroundColor="#f0f0f0"
+    android:layout_margin="@dimen/_5sdp"
+    card_view:cardCornerRadius="@dimen/_5sdp"
     android:layout_weight="1">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="@dimen/_5sdp">
 
         <!-- Profile Image of the friend -->
         <ImageView
             android:id="@+id/img_friend"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_130sdp"
-            android:src="@drawable/ic_profile_placeholder"
+            android:contentDescription="@string/profile_image"
             android:scaleType="centerCrop"
-            android:contentDescription="Profile Image"
-            android:background="#cccccc"/>
+            android:src="@drawable/ic_profile_placeholder"
+            tools:ignore="ImageContrastCheck" />
 
         <!-- Layout for displaying friend's name, school, and bio -->
         <LinearLayout
+            style="@style/subCardTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="8dp"
-            android:background="@color/white_pink"
-            android:gravity="center_horizontal">
+            android:paddingTop="@dimen/_13sdp"
+            android:paddingHorizontal="@dimen/_5sdp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_5sdp">
 
             <!-- TextView to display friend's name -->
             <TextView
                 android:id="@+id/tv_friend_name"
+                style="@style/textTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name"
-                android:textColor="#000000"
-                android:textSize="16sp"
+                android:text="@string/name"
+                android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"/>
 
             <!-- TextView to display friend's school -->
             <TextView
                 android:id="@+id/tv_friend_school"
+                style="@style/textTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="School"
-                android:textColor="#888888"
-                android:textSize="14sp"/>
+                android:text="@string/school_hint"
+                android:textSize="@dimen/_10ssp"/>
 
             <!-- TextView to display friend's bio -->
             <TextView
                 android:id="@+id/tv_friend_bio"
+                style="@style/textTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bio"
-                android:textColor="#888888"
-                android:textSize="14sp"
                 android:visibility="invisible"/> <!-- Make bio visible -->
         </LinearLayout>
     </LinearLayout>

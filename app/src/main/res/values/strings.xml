@@ -25,4 +25,8 @@
     <string name="sekolah_1">SMK Nurul Umah</string>
     <string name="foto_1">foto</string>
     <string name="search">Search</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="insert_photo">Insert Photo</string>
+    <string name="from_camera">From Camera</string>
+    <string name="pick_gallery">Pick Gallery</string>
 </resources>

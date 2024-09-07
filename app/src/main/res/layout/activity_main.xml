@@ -11,37 +11,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_400sdp"
-        android:src="@drawable/im_teman"
-        android:background="@color/orange"
-        android:contentDescription="@string/home_image"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/let_s_be_friend"
-        android:layout_marginStart="@dimen/_13sdp"
-        android:layout_marginTop="@dimen/_23sdp"
-        android:textStyle="bold"
-        android:textSize="@dimen/_25ssp"/>
+        <ImageView
+            style="@style/mainImageTheme"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_400sdp"
+            android:contentDescription="@string/home_image"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/description"
-        android:textSize="@dimen/_13ssp"
-        android:layout_marginHorizontal="@dimen/_13sdp"
-        android:layout_marginVertical="@dimen/_15sdp"/>
+        <TextView
+            style="@style/textTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/let_s_be_friend"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_23sdp"
+            android:textStyle="bold"
+            android:textSize="@dimen/_25ssp"/>
 
-    <Button
-        android:id="@+id/btn_start"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
-        android:text="@string/let_s_start"
-        android:textSize="@dimen/_15ssp"
-        android:layout_marginHorizontal="@dimen/_13sdp"/>
+        <TextView
+            style="@style/textTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            android:textSize="@dimen/_13ssp"
+            android:layout_marginHorizontal="@dimen/_13sdp"
+            android:layout_marginVertical="@dimen/_15sdp"/>
+
+        <Button
+            android:id="@+id/btn_start"
+            style="@style/Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:text="@string/let_s_start"
+            android:textSize="@dimen/_15ssp"
+            android:layout_marginHorizontal="@dimen/_13sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            tools:ignore="VisualLintButtonSize" />
     </LinearLayout>
 
 </ScrollView>

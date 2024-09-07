@@ -77,12 +77,14 @@ class EditFriendActivity : AppCompatActivity() {
         setContentView(binding.root)
         enableEdgeToEdge()
 
+        // Mengatur padding untuk menghindari overlap dengan system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Membuat file untuk foto
         photoFile = try {
             createImageFile()
         } catch (ex: IOException) {
@@ -90,19 +92,19 @@ class EditFriendActivity : AppCompatActivity() {
             return
         }
 
-        // Ambil data dari Intent
+        // Mengambil data dari Intent
         idFriend = intent.getIntExtra("EXTRA_ID", 0)
         val name = intent.getStringExtra("EXTRA_NAME")
         val school = intent.getStringExtra("EXTRA_SCHOOL")
         val bio = intent.getStringExtra("EXTRA_BIO")
         currentPhotoPath = intent.getStringExtra("EXTRA_PHOTO_PATH") // Menyimpan jalur foto saat ini
 
-        // Tampilkan data yang diterima
+        // Menampilkan data yang diterima di tampilan
         binding.etName.setText(name)
         binding.etSchool.setText(school)
         binding.etBio.setText(bio)
 
-        // Tampilkan gambar jika ada
+        // Menampilkan gambar jika ada
         currentPhotoPath?.let {
             val photoFile = File(it)
             if (photoFile.exists()) {
@@ -113,28 +115,35 @@ class EditFriendActivity : AppCompatActivity() {
             }
         }
 
+        // Menyiapkan ViewModel
         val viewModelFactory = FriendVMFactory(this)
         viewModel = ViewModelProvider(this, viewModelFactory)[FriendViewModel::class.java]
 
+        // Jika idFriend tidak nol, ambil data teman
         if (idFriend != 0) {
             getFriendData()
         }
 
+        // Menangani klik tombol save
         binding.saveButton.setOnClickListener {
             showSaveDialog()
         }
 
+        // Menangani klik tombol back
         binding.backButton.setOnClickListener {
             navigateToDetailFriend()
         }
 
+        // Menangani klik tombol camera
         binding.cameraButton.setOnClickListener {
             showInsertPhotoDialog()
         }
 
+        // Mengatur penanganan keyboard
         setupKeyboardHandling()
     }
 
+    // Mengatur penanganan layout saat keyboard terbuka
     private fun setupKeyboardHandling() {
         val rootView = findViewById<View>(android.R.id.content)
         rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -143,9 +152,8 @@ class EditFriendActivity : AppCompatActivity() {
                 rootView.getWindowVisibleDisplayFrame(rect)
                 val screenHeight = rootView.height
                 val keypadHeight = screenHeight - rect.bottom
-                if (keypadHeight > screenHeight * 0.15) { // keyboard is opened
-                    // Adjust layout or scroll to make sure EditText is visible
-                    // For example, you can scroll to the focused EditText
+                if (keypadHeight > screenHeight * 0.15) { // keyboard terbuka
+                    // Menyesuaikan layout atau scroll agar EditText terlihat
                     val focusedView = currentFocus
                     if (focusedView != null) {
                         focusedView.post {
@@ -157,6 +165,7 @@ class EditFriendActivity : AppCompatActivity() {
         })
     }
 
+    // Menampilkan dialog untuk memilih foto dari kamera atau galeri
     private fun showInsertPhotoDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_insert_photo, null)
         val dialogBuilder = AlertDialog.Builder(this).setView(dialogView)
@@ -178,6 +187,7 @@ class EditFriendActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
+    // Mengambil foto menggunakan kamera
     private fun takePhoto() {
         val photoUri = FileProvider.getUriForFile(this, "com.colab.myfriend.fileprovider", photoFile)
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
@@ -192,6 +202,7 @@ class EditFriendActivity : AppCompatActivity() {
         }
     }
 
+    // Mengambil data teman dari ViewModel
     private fun getFriendData() {
         lifecycleScope.launch {
             viewModel.getFriendById(idFriend).collect { friend ->
@@ -214,6 +225,7 @@ class EditFriendActivity : AppCompatActivity() {
         }
     }
 
+    // Menampilkan dialog konfirmasi sebelum menyimpan data
     private fun showSaveDialog() {
         AlertDialog.Builder(this)
             .setTitle("Edit Friend")
@@ -226,6 +238,7 @@ class EditFriendActivity : AppCompatActivity() {
             .show()
     }
 
+    // Menyimpan data teman
     private fun saveFriendData() {
         val name = binding.etName.text.toString().trim()
         val school = binding.etSchool.text.toString().trim()
@@ -262,6 +275,7 @@ class EditFriendActivity : AppCompatActivity() {
         }
     }
 
+    // Membuka galeri untuk memilih foto
     private fun openGallery() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryLauncher.launch(galleryIntent)
@@ -273,6 +287,7 @@ class EditFriendActivity : AppCompatActivity() {
         return File.createTempFile("PHOTO_", ".jpg", storageDir)
     }
 
+    // Mengambil bitmap dari file dan memperbaiki orientasi berdasarkan metadata EXIF
     private fun getOrientedBitmap(filePath: String): Bitmap {
         val bitmap = BitmapFactory.decodeFile(filePath)
         val exif = ExifInterface(filePath)
@@ -288,6 +303,7 @@ class EditFriendActivity : AppCompatActivity() {
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
+    // Berpindah ke DetailFriendActivity
     private fun navigateToDetailFriend() {
         val destination = Intent(this, DetailFriendActivity::class.java).apply {
             putExtra("EXTRA_ID", idFriend)
@@ -296,6 +312,7 @@ class EditFriendActivity : AppCompatActivity() {
         finish()
     }
 
+    // Scroll view agar EditText yang sedang fokus terlihat
     private fun View.scrollIntoView() {
         post {
             val rect = Rect()

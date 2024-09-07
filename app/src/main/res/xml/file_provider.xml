@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<paths xmlns:android="http://schemas.android.com/apk/res/android">
+<!--
+    File ini adalah file konfigurasi untuk menentukan lokasi penyimpanan file eksternal pada perangkat Android.
+    File ini digunakan untuk memberikan izin akses ke direktori tertentu pada penyimpanan eksternal.
+-->
+
+<paths>
+    <!--
+        Elemen ini menentukan path atau jalur direktori di penyimpanan eksternal yang dapat diakses oleh aplikasi.
+        Atribut "name" memberikan nama yang dapat digunakan untuk merujuk ke path ini dalam kode aplikasi.
+        Atribut "path" menunjukkan jalur relatif dari direktori penyimpanan eksternal di mana file akan disimpan.
+    -->
     <external-files-path
         name="my_images"
         path="Pictures/" />
