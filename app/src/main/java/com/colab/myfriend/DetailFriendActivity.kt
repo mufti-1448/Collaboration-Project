@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -37,7 +38,7 @@ class DetailFriendActivity : AppCompatActivity() {
             loadFriendData(friendId)
         } else {
             // Jika ID tidak valid, log error dan tutup activity
-            Log.e("DetailFriendActivity", "Invalid Friend ID received.")
+            Toast.makeText(this@DetailFriendActivity, "Invalid Friend ID received.", Toast.LENGTH_SHORT).show()
             finish()  // Menutup activity jika ID tidak valid
         }
 
@@ -92,7 +93,8 @@ class DetailFriendActivity : AppCompatActivity() {
                     }
                 } else {
                     // Jika tidak ada teman yang ditemukan berdasarkan ID, log error
-                    Log.e("DetailFriendActivity", "No friend found with ID: $id")
+                    Toast.makeText(this@DetailFriendActivity, "No friend found with ID: $id", Toast.LENGTH_SHORT).show()
+
                 }
             }
         }
@@ -160,13 +162,13 @@ class DetailFriendActivity : AppCompatActivity() {
                         startActivity(destination)
                         finish()
                     } ?: run {
-                        Log.e("DeleteFriend", "No friend found with ID: $friendId")
+                        Toast.makeText(this@DetailFriendActivity, "No friend found with ID: $friendId", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         } else {
             // Jika ID tidak valid, log error
-            Log.e("DeleteFriend", "Invalid ID: ${this.friendId}")
+            Toast.makeText(this@DetailFriendActivity, "Invalid ID: $friendId", Toast.LENGTH_SHORT).show()
         }
     }
 }
