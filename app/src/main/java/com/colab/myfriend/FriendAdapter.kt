@@ -16,8 +16,8 @@ import java.io.IOException
 
 // Adapter untuk RecyclerView yang menampilkan daftar teman
 class FriendAdapter(
-    private var friendList: List<Friend>, // Daftar teman yang ditampilkan di RecyclerView
-    private val onItemClick: (Friend) -> Unit // Callback untuk menangani klik item
+    private var friendList: List<Friend>,
+    private val onItemClick: (Friend) -> Unit
 ) : RecyclerView.Adapter<FriendAdapter.FriendViewHolder>() {
 
     // Membuat ViewHolder untuk item yang ditampilkan
@@ -45,28 +45,28 @@ class FriendAdapter(
 
     // ViewHolder untuk item teman dalam RecyclerView
     class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val nameTextView: TextView = itemView.findViewById(R.id.tv_friend_name) // TextView untuk nama teman
-        private val schoolTextView: TextView = itemView.findViewById(R.id.tv_friend_school) // TextView untuk nama sekolah teman
-        private val bioTextView: TextView = itemView.findViewById(R.id.tv_friend_bio) // TextView untuk biografi teman
-        private val profileImageView: ImageView = itemView.findViewById(R.id.img_friend) // ImageView untuk foto profil teman
+        private val nameTextView: TextView = itemView.findViewById(R.id.tv_friend_name)
+        private val schoolTextView: TextView = itemView.findViewById(R.id.tv_friend_school)
+        private val bioTextView: TextView = itemView.findViewById(R.id.tv_friend_bio)
+        private val profileImageView: ImageView = itemView.findViewById(R.id.img_friend)
 
         // Mengikat data teman ke ViewHolder dan menangani klik item
         fun bind(friend: Friend, onItemClick: (Friend) -> Unit) {
-            nameTextView.text = friend.name // Menetapkan nama teman
-            schoolTextView.text = friend.school // Menetapkan nama sekolah teman
-            bioTextView.text = friend.bio // Menetapkan biografi teman
+            nameTextView.text = friend.name
+            schoolTextView.text = friend.school
+            bioTextView.text = friend.bio
 
             // Menetapkan gambar profil dari path file jika tersedia, jika tidak, gunakan placeholder
             if (friend.photoPath?.isNotEmpty() == true) {
                 val imgFile = File(friend.photoPath!!)
                 if (imgFile.exists()) {
-                    val rotatedBitmap = rotateImageIfRequired(imgFile) // Memutar gambar jika diperlukan
-                    profileImageView.setImageBitmap(rotatedBitmap) // Menetapkan gambar ke ImageView
+                    val rotatedBitmap = rotateImageIfRequired(imgFile)
+                    profileImageView.setImageBitmap(rotatedBitmap)
                 } else {
-                    profileImageView.setImageResource(R.drawable.ic_profile_placeholder) // Menetapkan placeholder jika file tidak ada
+                    profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
                 }
             } else {
-                profileImageView.setImageResource(R.drawable.ic_profile_placeholder) // Menetapkan placeholder jika tidak ada path foto
+                profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
             }
 
             // Menangani klik item dengan memanggil callback
@@ -77,27 +77,27 @@ class FriendAdapter(
 
         // Memutar gambar jika orientasi EXIF memerlukannya
         private fun rotateImageIfRequired(imgFile: File): Bitmap? {
-            val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath) // Mengambil bitmap dari file
+            val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
             try {
-                val exif = ExifInterface(imgFile.absolutePath) // Mengambil metadata EXIF dari file gambar
-                val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL) // Mendapatkan orientasi gambar
+                val exif = ExifInterface(imgFile.absolutePath)
+                val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
 
                 return when (orientation) {
-                    ExifInterface.ORIENTATION_ROTATE_90 -> rotateBitmap(bitmap, 90f) // Memutar gambar 90 derajat
-                    ExifInterface.ORIENTATION_ROTATE_180 -> rotateBitmap(bitmap, 180f) // Memutar gambar 180 derajat
-                    ExifInterface.ORIENTATION_ROTATE_270 -> rotateBitmap(bitmap, 270f) // Memutar gambar 270 derajat
-                    else -> bitmap // Tidak perlu memutar gambar
+                    ExifInterface.ORIENTATION_ROTATE_90 -> rotateBitmap(bitmap, 90f)
+                    ExifInterface.ORIENTATION_ROTATE_180 -> rotateBitmap(bitmap, 180f)
+                    ExifInterface.ORIENTATION_ROTATE_270 -> rotateBitmap(bitmap, 270f)
+                    else -> bitmap
                 }
             } catch (e: IOException) {
-                e.printStackTrace() // Menangani exception jika terjadi kesalahan saat membaca EXIF
+                e.printStackTrace()
             }
-            return bitmap // Mengembalikan bitmap yang tidak diputar jika terjadi kesalahan
+            return bitmap
         }
 
         // Memutar bitmap sesuai dengan sudut yang diberikan
         private fun rotateBitmap(bitmap: Bitmap, degrees: Float): Bitmap {
-            val matrix = Matrix().apply { postRotate(degrees) } // Membuat matrix untuk rotasi
-            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true) // Menghasilkan bitmap yang diputar
+            val matrix = Matrix().apply { postRotate(degrees) }
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
         }
     }
 }

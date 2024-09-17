@@ -33,18 +33,18 @@ import java.io.IOException
 
 class AddFriendActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAddFriendBinding // Menghubungkan view binding untuk mengakses elemen UI pada layout XML
-    private lateinit var viewModel: FriendViewModel // View model yang mengelola data teman
-    private lateinit var photoFile: File // File tempat penyimpanan foto
-    private var oldFriend: Friend? = null // Teman lama (digunakan saat mengedit data)
-    private var idFriend: Int = 0 // ID teman yang akan di-edit
-    private var isImageChanged = false // Variabel untuk memeriksa apakah gambar telah diubah
+    private lateinit var binding: ActivityAddFriendBinding
+    private lateinit var viewModel: FriendViewModel
+    private lateinit var photoFile: File
+    private var oldFriend: Friend? = null
+    private var idFriend: Int = 0
+    private var isImageChanged = false
 
     // Launcher untuk meminta izin penggunaan kamera
     private val requestCameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                takePhoto() // Jika izin kamera diberikan, ambil foto
+                takePhoto()
             } else {
                 Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
             }
@@ -54,7 +54,7 @@ class AddFriendActivity : AppCompatActivity() {
     private val requestStoragePermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                openGallery() // Jika izin penyimpanan diberikan, buka galeri
+                openGallery()
             } else {
                 Toast.makeText(this, "Storage permission denied", Toast.LENGTH_SHORT).show()
             }
@@ -64,9 +64,9 @@ class AddFriendActivity : AppCompatActivity() {
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                val rotatedImage = rotateImageIfRequired(photoFile.absolutePath) // Rotasi gambar jika diperlukan
-                binding.profileImage.setImageBitmap(rotatedImage) // Tampilkan gambar di ImageView
-                isImageChanged = true // Setel gambar telah diubah
+                val rotatedImage = rotateImageIfRequired(photoFile.absolutePath)
+                binding.profileImage.setImageBitmap(rotatedImage)
+                isImageChanged = true
             }
         }
 
@@ -81,7 +81,6 @@ class AddFriendActivity : AppCompatActivity() {
                 val inputStream = FileInputStream(fileDescriptor)
                 val outputStream = FileOutputStream(photoFile)
 
-                // Salin gambar dari galeri ke file foto yang telah dibuat
                 inputStream.use { input ->
                     outputStream.use { output ->
                         input.copyTo(output)
@@ -92,7 +91,7 @@ class AddFriendActivity : AppCompatActivity() {
 
                 val rotatedImage = rotateImageIfRequired(photoFile.absolutePath)
                 binding.profileImage.setImageBitmap(rotatedImage)
-                isImageChanged = true // Setel gambar telah diubah
+                isImageChanged = true
             }
         }
 
@@ -112,7 +111,7 @@ class AddFriendActivity : AppCompatActivity() {
 
         // Membuat file untuk menyimpan foto
         photoFile = try {
-            createImageFile() // Fungsi untuk membuat file gambar
+            createImageFile()
         } catch (ex: IOException) {
             Toast.makeText(this, "Cannot create Image File", Toast.LENGTH_SHORT).show()
             return
@@ -129,20 +128,18 @@ class AddFriendActivity : AppCompatActivity() {
             getFriend()
         }
 
-        // Tombol simpan di klik
         binding.saveButton.setOnClickListener {
-            showSaveDialog() // Tampilkan dialog konfirmasi simpan
+            showSaveDialog()
         }
 
-        // Tombol kembali di klik
         binding.backButton.setOnClickListener {
             val destination = Intent(this, MenuHomeActivity::class.java)
             startActivity(destination)
         }
 
-        // Tombol kamera di klik
+
         binding.cameraButton.setOnClickListener {
-            showInsertPhotoDialog() // Tampilkan dialog untuk memilih foto
+            showInsertPhotoDialog()
         }
     }
 
@@ -155,7 +152,6 @@ class AddFriendActivity : AppCompatActivity() {
         val fromCamera = dialogView.findViewById<TextView>(R.id.from_camera)
         val pickGallery = dialogView.findViewById<TextView>(R.id.pick_gallery)
 
-        // Pilih dari kamera
         fromCamera.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 takePhoto()
@@ -165,7 +161,6 @@ class AddFriendActivity : AppCompatActivity() {
             alertDialog.dismiss()
         }
 
-        // Pilih dari galeri
         pickGallery.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 openGallery()
@@ -209,7 +204,6 @@ class AddFriendActivity : AppCompatActivity() {
                     binding.etSchool.setText(friend?.school)
                     binding.etBio.setText(friend?.bio)
 
-                    // Menampilkan foto jika tersedia
                     if (friend?.photoPath?.isNotEmpty() == true) {
                         val photo = BitmapFactory.decodeFile(friend.photoPath)
                         binding.profileImage.setImageBitmap(photo)
@@ -227,7 +221,7 @@ class AddFriendActivity : AppCompatActivity() {
             builder.setTitle("Add Friend")
             builder.setMessage("Are you sure you want to add this friend?")
             builder.setPositiveButton("Save") { _, _ ->
-                addData() // Menyimpan data
+                addData()
                 Toast.makeText(this, "Friend saved", Toast.LENGTH_SHORT).show()
                 finish()
             }
@@ -271,14 +265,12 @@ class AddFriendActivity : AppCompatActivity() {
         val school = binding.etSchool.text.toString().trim()
         val bio = binding.etBio.text.toString().trim()
 
-        // Jika data teman lama kosong, tambahkan teman baru
         if (oldFriend == null) {
             val data = Friend(name, school, bio, photoFile.absolutePath) // Save new friend with photoPath
             lifecycleScope.launch {
                 viewModel.insertFriend(data)
             }
         } else {
-            // Edit data teman yang sudah ada
             val data: Friend = oldFriend!!.copy(
                 name = name,
                 school = school,

@@ -34,15 +34,12 @@ class DetailFriendActivity : AppCompatActivity() {
         friendId = intent.getIntExtra("EXTRA_ID", 0)
 
         if (friendId != 0) {
-            // Memuat data teman berdasarkan ID
             loadFriendData(friendId)
         } else {
-            // Jika ID tidak valid, log error dan tutup activity
             Toast.makeText(this@DetailFriendActivity, "Invalid Friend ID received.", Toast.LENGTH_SHORT).show()
             finish()  // Menutup activity jika ID tidak valid
         }
 
-        // Tombol edit, navigasi ke EditFriendActivity dengan ID teman
         binding.editButton.setOnClickListener {
             val destination = Intent(this, EditFriendActivity::class.java).apply {
                 putExtra("EXTRA_ID", friendId)
@@ -50,13 +47,11 @@ class DetailFriendActivity : AppCompatActivity() {
             startActivity(destination)
         }
 
-        // Tombol back, kembali ke MenuHomeActivity
         binding.backButton.setOnClickListener {
             val destination = Intent(this, MenuHomeActivity::class.java)
             startActivity(destination)
         }
 
-        // Tombol delete, menampilkan dialog konfirmasi untuk menghapus data teman
         binding.deleteButton.setOnClickListener {
             showDeleteConfirmationDialog()
         }
@@ -70,29 +65,23 @@ class DetailFriendActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.getFriendById(id).collect { friend ->
                 if (friend != null) {
-                    // Menampilkan nama, sekolah, dan bio di TextView
                     binding.tvName.text = friend.name
                     binding.tvSchool.text = friend.school
                     binding.tvBio.text = friend.bio
 
-                    // Menampilkan foto teman jika ada
                     if (!friend.photoPath.isNullOrEmpty()) {
                         val imgFile = File(friend.photoPath!!)
                         if (imgFile.exists()) {
-                            // Menampilkan foto setelah dirotasi jika diperlukan
                             val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
                             val orientedBitmap = getOrientedBitmap(imgFile.absolutePath, bitmap)
                             binding.profileImage.setImageBitmap(orientedBitmap)
                         } else {
-                            // Jika tidak ada foto, gunakan gambar placeholder
                             binding.profileImage.setImageResource(R.drawable.ic_profile_placeholder)
                         }
                     } else {
-                        // Jika tidak ada foto, gunakan gambar placeholder
                         binding.profileImage.setImageResource(R.drawable.ic_profile_placeholder)
                     }
                 } else {
-                    // Jika tidak ada teman yang ditemukan berdasarkan ID, log error
                     Toast.makeText(this@DetailFriendActivity, "No friend found with ID: $id", Toast.LENGTH_SHORT).show()
 
                 }
@@ -106,14 +95,12 @@ class DetailFriendActivity : AppCompatActivity() {
         val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
 
         val matrix = Matrix()
-        // Mengatur rotasi gambar sesuai orientasi EXIF
         when (orientation) {
             ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
             ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
             ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
         }
 
-        // Mengembalikan bitmap yang telah dirotasi
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
@@ -123,13 +110,11 @@ class DetailFriendActivity : AppCompatActivity() {
         val schoolDrawable = ContextCompat.getDrawable(this, R.drawable.ic_school)
         val infoDrawable = ContextCompat.getDrawable(this, R.drawable.ic_info)
 
-        // Menentukan ukuran drawable yang diinginkan
         val scaledSize = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._23sdp)
         personDrawable?.setBounds(0, 0, scaledSize, scaledSize)
         schoolDrawable?.setBounds(0, 0, scaledSize, scaledSize)
         infoDrawable?.setBounds(0, 0, scaledSize, scaledSize)
 
-        // Menambahkan ikon ke TextView dengan posisi di sebelah kiri
         binding.tvName.setCompoundDrawablesRelative(personDrawable, null, null, null)
         binding.tvSchool.setCompoundDrawablesRelative(schoolDrawable, null, null, null)
         binding.tvBio.setCompoundDrawablesRelative(infoDrawable, null, null, null)
@@ -141,7 +126,6 @@ class DetailFriendActivity : AppCompatActivity() {
         builder.setTitle("Remove Friend")
         builder.setMessage("Are you sure you want to remove this friend?")
         builder.setPositiveButton("Remove") { _, _ ->
-            // Jika dihapus, panggil fungsi deleteFriend()
             deleteFriend()
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
@@ -156,7 +140,6 @@ class DetailFriendActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 viewModel.getFriendById(friendId).collect { friend ->
                     friend?.let {
-                        // Menghapus teman dan kembali ke MenuHomeActivity
                         viewModel.deleteFriend(it)
                         val destination = Intent(this@DetailFriendActivity, MenuHomeActivity::class.java)
                         startActivity(destination)
@@ -167,7 +150,6 @@ class DetailFriendActivity : AppCompatActivity() {
                 }
             }
         } else {
-            // Jika ID tidak valid, log error
             Toast.makeText(this@DetailFriendActivity, "Invalid ID: $friendId", Toast.LENGTH_SHORT).show()
         }
     }

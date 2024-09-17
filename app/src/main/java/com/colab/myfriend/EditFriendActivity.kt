@@ -37,7 +37,7 @@ class EditFriendActivity : AppCompatActivity() {
     private lateinit var photoFile: File
     private var oldFriend: Friend? = null
     private var idFriend: Int = 0
-    private var currentPhotoPath: String? = null // Menyimpan jalur foto saat ini
+    private var currentPhotoPath: String? = null
 
     private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -124,17 +124,14 @@ class EditFriendActivity : AppCompatActivity() {
             getFriendData()
         }
 
-        // Menangani klik tombol save
         binding.saveButton.setOnClickListener {
             showSaveDialog()
         }
 
-        // Menangani klik tombol back
         binding.backButton.setOnClickListener {
             navigateToDetailFriend()
         }
 
-        // Menangani klik tombol camera
         binding.cameraButton.setOnClickListener {
             showInsertPhotoDialog()
         }
@@ -152,8 +149,7 @@ class EditFriendActivity : AppCompatActivity() {
                 rootView.getWindowVisibleDisplayFrame(rect)
                 val screenHeight = rootView.height
                 val keypadHeight = screenHeight - rect.bottom
-                if (keypadHeight > screenHeight * 0.15) { // keyboard terbuka
-                    // Menyesuaikan layout atau scroll agar EditText terlihat
+                if (keypadHeight > screenHeight * 0.15) {
                     val focusedView = currentFocus
                     if (focusedView != null) {
                         focusedView.post {
@@ -216,7 +212,7 @@ class EditFriendActivity : AppCompatActivity() {
                     if (photoFile.exists()) {
                         val orientedBitmap = getOrientedBitmap(photoFile.absolutePath)
                         binding.profileImage.setImageBitmap(orientedBitmap)
-                        currentPhotoPath = path // Tetapkan jalur foto yang diambil dari data teman
+                        currentPhotoPath = path
                     } else {
                         Toast.makeText(this@EditFriendActivity, "Image file not found", Toast.LENGTH_SHORT).show()
                     }
@@ -249,7 +245,6 @@ class EditFriendActivity : AppCompatActivity() {
             return
         }
 
-        // Gunakan jalur foto yang ada jika foto baru tidak dipilih
         val photoPathToSave = currentPhotoPath ?: photoFile.absolutePath
 
         val friendData = if (oldFriend == null) {
