@@ -1,40 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Layout LinearLayout digunakan untuk mengatur tata letak komponen secara vertikal -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:orientation="vertical"
-    android:padding="@dimen/_14sdp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <!-- EditText untuk kolom pencarian -->
-    <EditText
-        android:id="@+id/search_bar"
-        style="@style/searchTheme"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="text"
-        android:background="@drawable/bg_search"
-        android:drawableEnd="@drawable/ic_search"
-        android:hint="@string/search"
-        android:inputType="text"
-        android:minHeight="@dimen/_38sdp"
-        android:padding="@dimen/_8sdp"
-        android:textColor="@color/black"
-        tools:ignore="VisualLintTextFieldSize" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/_14sdp">
 
-    <!-- RecyclerView untuk daftar teman -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        <!-- EditText untuk kolom pencarian -->
+        <EditText
+            android:id="@+id/search_bar"
+            style="@style/searchTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="text"
+            android:background="@drawable/bg_search"
+            android:drawableEnd="@drawable/ic_search"
+            android:hint="@string/search"
+            android:inputType="text"
+            android:minHeight="@dimen/_38sdp"
+            android:padding="@dimen/_8sdp"
+            android:textColor="@color/black"
+            tools:ignore="VisualLintTextFieldSize" />
+
+        <!-- RecyclerView untuk daftar teman -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:padding="@dimen/_2sdp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/activity_item_friend"/>
+
+    </LinearLayout>
+
+    <!-- view not found -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:padding="@dimen/_2sdp"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/activity_item_friend"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:id="@+id/no_data_layout">
+
+        <ImageView
+            android:id="@+id/iconNoData"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_search_off"
+            android:contentDescription="no_data_icon_desc" />
+
+        <TextView
+            android:id="@+id/tvNoData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Data Found"
+            android:textSize="@dimen/_16sdp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
 
     <!-- Tombol untuk menambah teman baru -->
     <ImageButton
@@ -42,9 +75,10 @@
         style="@style/btnAddTheme"
         android:layout_width="@dimen/_48sdp"
         android:layout_height="@dimen/_48sdp"
-        android:layout_gravity="end"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/_16sdp"
         android:background="@drawable/ic_button_add"
         android:contentDescription="@string/des_btn_camera"
         android:src="@drawable/ic_add" />
 
-</LinearLayout>
+</FrameLayout>
